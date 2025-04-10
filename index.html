@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infegy's Fear & Cheer Index</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="fci-container">
+        <main class="fci-main-content">
+            <header class="fci-header">
+                <div class="fci-header-content">
+                    <h1 class="fci-title">Infegy's Fear & Cheer Index</h1>
+                    <p class="fci-subtitle">Real-time social listening insights tracking economic sentiment across multiple indicators and platforms.</p>
+                </div>
+            </header>
+
+            <aside class="fci-toc-sidebar">
+                <div class="fci-toc-content">
+                    <h3 class="fci-toc-title">Table of Contents</h3>
+                    <nav class="fci-toc-nav">
+                        <a href="#overall-sentiment" class="fci-toc-link">Overall Sentiment</a>
+                        <a href="#financial-health" class="fci-toc-link">Financial Health</a>
+                        <a href="#labor-market" class="fci-toc-link">Labor Market</a>
+                        <a href="#consumer-sentiment" class="fci-toc-link">Consumer Sentiment</a>
+                    </nav>
+                </div>
+            </aside>
+
+            <div class="fci-content-wrapper">
+                <section id="overall-sentiment" class="fci-section">
+                    <h2 class="fci-section-header">📊 Overall Economic Sentiment</h2>
+                    <p class="fci-section-description">A comprehensive view of how people feel about the economy, combining various sentiment indicators and economic discussions across social platforms.</p>
+                    
+                    <div class="fci-card">
+                        <h3 class="fci-card-title">Economic Sentiment Index (ESI)</h3>
+                        <p class="fci-metric-description">Composite score tracking overall economic sentiment, combining positive and negative mentions across social media.</p>
+                        <div class="fci-gauge-container">
+                            <canvas id="fci-esiGauge"></canvas>
+                        </div>
+                        <div class="fci-chart-container">
+                            <canvas id="fci-esiChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="financial-health" class="fci-section">
+                    <h2 class="fci-section-header">💰 Financial Health Indicators</h2>
+                    <p class="fci-section-description">Measures of financial anxiety and optimism, tracking how people discuss their personal financial situations and outlook.</p>
+                    
+                    <div class="fci-metrics-grid">
+                        <div class="fci-card">
+                            <h3 class="fci-card-title">Financial Anxiety Score</h3>
+                            <p class="fci-metric-description">Percentage of posts expressing financial stress, uncertainty, or concern about personal finances.</p>
+                            <div class="fci-gauge-container">
+                                <canvas id="fci-anxietyGauge"></canvas>
+                            </div>
+                            <div class="fci-chart-container">
+                                <canvas id="fci-anxietyChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="fci-card">
+                            <h3 class="fci-card-title">Hope vs. Despair Ratio</h3>
+                            <p class="fci-metric-description">Ratio of optimistic to pessimistic financial discussions, indicating overall financial outlook.</p>
+                            <div class="fci-gauge-container">
+                                <canvas id="fci-hopeDespairGauge"></canvas>
+                            </div>
+                            <div class="fci-chart-container">
+                                <canvas id="fci-hopeDespairChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="labor-market" class="fci-section">
+                    <h2 class="fci-section-header">👔 Labor Market Pulse</h2>
+                    <p class="fci-section-description">Tracking employment-related discussions, from layoff concerns to job market optimism.</p>
+                    
+                    <div class="fci-card">
+                        <h3 class="fci-card-title">Layoff Mentions</h3>
+                        <p class="fci-metric-description">Volume of discussions about layoffs, job losses, and employment uncertainty.</p>
+                        <div class="fci-gauge-container">
+                            <canvas id="fci-layoffGauge"></canvas>
+                        </div>
+                        <div class="fci-chart-container">
+                            <canvas id="fci-layoffChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="consumer-sentiment" class="fci-section">
+                    <h2 class="fci-section-header">🛍️ Consumer Behavior</h2>
+                    <p class="fci-section-description">Insights into consumer confidence and spending patterns based on social media discussions.</p>
+                    
+                    <div class="fci-card">
+                        <h3 class="fci-card-title">Consumer Behavior Index</h3>
+                        <p class="fci-metric-description">Measure of consumer confidence and spending intentions based on social media sentiment.</p>
+                        <div class="fci-gauge-container">
+                            <canvas id="fci-consumerGauge"></canvas>
+                        </div>
+                        <div class="fci-chart-container">
+                            <canvas id="fci-consumerChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <footer class="fci-footer">
+                    <p>Data updated every hour | Last updated: <span id="lastUpdated"></span></p>
+                </footer>
+            </div>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html> 

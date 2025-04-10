@@ -1,0 +1,30 @@
+{
+    "lastUpdated": "2024-04-10T21:00:00Z",
+    "metrics": {
+        "esi": {
+            "current": 65.4,
+            "trend": [55, 58, 62, 60, 65, 63, 65.4],
+            "labels": ["6d ago", "5d ago", "4d ago", "3d ago", "2d ago", "1d ago", "Today"]
+        },
+        "financialAnxiety": {
+            "current": 42.8,
+            "trend": [45, 44, 43, 44, 43, 43, 42.8],
+            "labels": ["6d ago", "5d ago", "4d ago", "3d ago", "2d ago", "1d ago", "Today"]
+        },
+        "hopeDespair": {
+            "current": 1.8,
+            "trend": [1.5, 1.6, 1.7, 1.6, 1.7, 1.8, 1.8],
+            "labels": ["6d ago", "5d ago", "4d ago", "3d ago", "2d ago", "1d ago", "Today"]
+        },
+        "layoffMentions": {
+            "current": 28.3,
+            "trend": [30, 29, 28, 29, 28, 28, 28.3],
+            "labels": ["6d ago", "5d ago", "4d ago", "3d ago", "2d ago", "1d ago", "Today"]
+        },
+        "consumerBehavior": {
+            "current": 58.2,
+            "trend": [55, 56, 57, 56, 57, 58, 58.2],
+            "labels": ["6d ago", "5d ago", "4d ago", "3d ago", "2d ago", "1d ago", "Today"]
+        }
+    }
+} 
