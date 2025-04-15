@@ -86,50 +86,41 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: white;
-    padding: 0.75rem 1.25rem;
-    border-radius: 12px;
-    margin-top: 1rem;
+    background: transparent;
+    padding: 0;
+    margin: 0;
     font-size: 0.9rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.fci-last-updated-label {
-    color: var(--fci-primary);
-    font-weight: 500;
-}
-
-.fci-last-updated-time {
-    color: var(--fci-primary-dark);
-    font-weight: 500;
 }
 
 .fci-dataset-duration {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: white;
-    padding: 0.75rem 1.25rem;
-    border-radius: 12px;
-    margin-top: 1.5rem;
+    background: transparent;
+    padding: 0;
+    margin: 0;
     font-size: 0.9rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-left: 1rem;
 }
 
+.fci-last-updated-label,
 .fci-dataset-label {
-    color: var(--fci-primary);
+    color: var(--fci-primary-dark);
     font-weight: 500;
+    opacity: 0.8;
 }
 
+.fci-last-updated-time,
 .fci-dataset-start,
 .fci-dataset-end {
-    color: var(--fci-primary-dark);
+    color: var(--fci-dark);
     font-weight: 500;
 }
 
 .fci-dataset-separator {
     color: var(--fci-primary-dark);
     font-weight: 400;
+    opacity: 0.8;
 }
 
 .fci-cta {
@@ -434,14 +425,7 @@ body {
     border-radius: 12px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     text-align: center;
-    transition: all 0.2s ease;
     border: 1px solid rgba(34, 51, 84, 0.1);
-}
-
-.fci-stat-box:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-color: rgba(34, 51, 84, 0.2);
 }
 
 .fci-stat-value {
