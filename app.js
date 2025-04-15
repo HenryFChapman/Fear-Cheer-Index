@@ -3,179 +3,7 @@ Chart.defaults.font.family = 'Roboto';
 Chart.defaults.color = '#223354';
 Chart.defaults.borderColor = 'rgba(0, 0, 0, 0.1)';
 
-// Common gauge options
-const gaugeOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    cutout: '70%',
-    circumference: 180,
-    rotation: 270,
-    plugins: {
-        legend: {
-            display: false
-        },
-        tooltip: {
-            enabled: false
-        }
-    }
-};
-
-// Create ESI Gauge
-function createESIGauge(data) {
-    const ctx = document.getElementById('fci-esiGauge').getContext('2d');
-    new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            datasets: [{
-                data: [data.current, 100 - data.current],
-                backgroundColor: ['#22aaff', 'rgba(34, 170, 255, 0.1)'],
-                borderWidth: 0
-            }]
-        },
-        options: {
-            ...gaugeOptions,
-            plugins: {
-                ...gaugeOptions.plugins,
-                title: {
-                    display: true,
-                    text: `${data.current}`,
-                    font: {
-                        size: 24,
-                        weight: 'bold'
-                    },
-                    position: 'bottom',
-                    color: '#22aaff'
-                }
-            }
-        }
-    });
-}
-
-// Create Financial Anxiety Gauge
-function createAnxietyGauge(data) {
-    const ctx = document.getElementById('fci-anxietyGauge').getContext('2d');
-    new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            datasets: [{
-                data: [data.current, 100 - data.current],
-                backgroundColor: ['#ff3366', 'rgba(255, 51, 102, 0.1)'],
-                borderWidth: 0
-            }]
-        },
-        options: {
-            ...gaugeOptions,
-            plugins: {
-                ...gaugeOptions.plugins,
-                title: {
-                    display: true,
-                    text: `${data.current}%`,
-                    font: {
-                        size: 24,
-                        weight: 'bold'
-                    },
-                    position: 'bottom',
-                    color: '#ff3366'
-                }
-            }
-        }
-    });
-}
-
-// Create Hope vs Despair Gauge
-function createHopeDespairGauge(data) {
-    const ctx = document.getElementById('fci-hopeDespairGauge').getContext('2d');
-    new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            datasets: [{
-                data: [data.current, 100 - data.current],
-                backgroundColor: ['#88dd11', 'rgba(136, 221, 17, 0.1)'],
-                borderWidth: 0
-            }]
-        },
-        options: {
-            ...gaugeOptions,
-            plugins: {
-                ...gaugeOptions.plugins,
-                title: {
-                    display: true,
-                    text: `${data.current}`,
-                    font: {
-                        size: 24,
-                        weight: 'bold'
-                    },
-                    position: 'bottom',
-                    color: '#88dd11'
-                }
-            }
-        }
-    });
-}
-
-// Create Layoff Mentions Gauge
-function createLayoffGauge(data) {
-    const ctx = document.getElementById('fci-layoffGauge').getContext('2d');
-    new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            datasets: [{
-                data: [data.current, 100 - data.current],
-                backgroundColor: ['#ee44ee', 'rgba(238, 68, 238, 0.1)'],
-                borderWidth: 0
-            }]
-        },
-        options: {
-            ...gaugeOptions,
-            plugins: {
-                ...gaugeOptions.plugins,
-                title: {
-                    display: true,
-                    text: `${data.current}%`,
-                    font: {
-                        size: 24,
-                        weight: 'bold'
-                    },
-                    position: 'bottom',
-                    color: '#ee44ee'
-                }
-            }
-        }
-    });
-}
-
-// Create Consumer Behavior Gauge
-function createConsumerGauge(data) {
-    const ctx = document.getElementById('fci-consumerGauge').getContext('2d');
-    new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            datasets: [{
-                data: [data.current, 100 - data.current],
-                backgroundColor: ['#aa77ff', 'rgba(170, 119, 255, 0.1)'],
-                borderWidth: 0
-            }]
-        },
-        options: {
-            ...gaugeOptions,
-            plugins: {
-                ...gaugeOptions.plugins,
-                title: {
-                    display: true,
-                    text: `${data.current}`,
-                    font: {
-                        size: 24,
-                        weight: 'bold'
-                    },
-                    position: 'bottom',
-                    color: '#aa77ff'
-                }
-            }
-        }
-    });
-}
-
-// Common chart options
+// Common options for all charts
 const commonOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -185,321 +13,376 @@ const commonOptions = {
         },
         tooltip: {
             backgroundColor: 'rgba(34, 42, 84, 0.9)',
+            titleColor: '#fff',
+            bodyColor: '#fff',
             padding: 12,
             displayColors: false,
+            intersect: false,
+            mode: 'index',
             callbacks: {
-                title: () => '',
-                label: (context) => `${context.parsed.y}`
+                label: function(context) {
+                    return `${context.dataset.label}: ${context.parsed.y.toFixed(3)}`;
+                }
             }
         }
     },
+    interaction: {
+        mode: 'index',
+        intersect: false
+    },
     scales: {
-        y: {
-            beginAtZero: true,
-            grid: {
-                color: 'rgba(0, 0, 0, 0.05)',
-                drawBorder: false
-            },
-            ticks: {
-                padding: 10,
-                font: {
-                    size: 12
-                }
-            }
-        },
         x: {
             grid: {
                 display: false
             },
             ticks: {
-                padding: 10,
-                font: {
-                    size: 12
-                }
+                maxTicksLimit: 8,
+                autoSkip: true
             }
-        }
-    },
-    elements: {
-        line: {
-            tension: 0.3
         },
-        point: {
-            radius: 0,
-            hoverRadius: 6,
-            hoverBorderWidth: 2
+        y: {
+            beginAtZero: true,
+            grid: {
+                display: false
+            },
+            title: {
+                display: true,
+                text: 'Value'
+            }
         }
     }
 };
 
-// Fetch and process data
-async function loadData() {
-    try {
-        const response = await fetch('data.json');
-        const data = await response.json();
-        
-        // Update last updated time
-        document.getElementById('lastUpdated').textContent = new Date(data.lastUpdated).toLocaleString();
-        
-        // Create charts
-        createESIChart(data.metrics.esi);
-        createESIGauge(data.metrics.esi);
-        createAnxietyChart(data.metrics.financialAnxiety);
-        createAnxietyGauge(data.metrics.financialAnxiety);
-        createHopeDespairChart(data.metrics.hopeDespair);
-        createHopeDespairGauge(data.metrics.hopeDespair);
-        createLayoffChart(data.metrics.layoffMentions);
-        createLayoffGauge(data.metrics.layoffMentions);
-        createConsumerChart(data.metrics.consumerBehavior);
-        createConsumerGauge(data.metrics.consumerBehavior);
-    } catch (error) {
-        console.error('Error loading data:', error);
-    }
-}
+// Store chart instances
+const chartInstances = {};
 
 // Create ESI Chart
 function createESIChart(data) {
     const ctx = document.getElementById('fci-esiChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: data.labels,
-            datasets: [{
-                data: data.trend,
-                borderColor: '#22aaff',
-                backgroundColor: 'rgba(34, 170, 255, 0.1)',
-                borderWidth: 2,
-                fill: true
-            }]
-        },
-        options: {
-            ...commonOptions,
-            scales: {
-                ...commonOptions.scales,
-                y: {
-                    ...commonOptions.scales.y,
-                    title: {
-                        display: true,
-                        text: 'Index Score',
-                        font: {
-                            size: 12,
-                            weight: '500'
-                        }
-                    }
-                }
-            },
-            plugins: {
-                ...commonOptions.plugins,
+    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+    gradient.addColorStop(0, 'rgba(34, 170, 255, 0.3)');
+    gradient.addColorStop(1, 'rgba(34, 170, 255, 0)');
+    
+    const options = {
+        ...commonOptions,
+        scales: {
+            ...commonOptions.scales,
+            y: {
+                ...commonOptions.scales.y,
                 title: {
                     display: true,
-                    text: `Current ESI: ${data.current}`,
-                    font: {
-                        size: 14,
-                        weight: '500'
-                    },
-                    padding: {
-                        bottom: 20
+                    text: 'Percentage'
+                },
+                ticks: {
+                    callback: function(value) {
+                        return value + '%';
                     }
                 }
             }
         }
+    };
+    
+    if (chartInstances.esi) {
+        chartInstances.esi.destroy();
+    }
+    chartInstances.esi = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [...data.metrics.esi.labels].reverse(),
+            datasets: [{
+                label: 'Economic Sentiment Index',
+                data: [...data.metrics.esi.trend].reverse(),
+                borderColor: '#22aaff',
+                backgroundColor: gradient,
+                borderWidth: 2,
+                tension: 0.4,
+                fill: true,
+                pointRadius: 0
+            }]
+        },
+        options: options
     });
 }
 
-// Create Financial Anxiety Chart
+// Create Anxiety Chart
 function createAnxietyChart(data) {
     const ctx = document.getElementById('fci-anxietyChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: data.labels,
-            datasets: [{
-                data: data.trend,
-                borderColor: '#ff3366',
-                backgroundColor: 'rgba(255, 51, 102, 0.1)',
-                borderWidth: 2,
-                fill: true
-            }]
-        },
-        options: {
-            ...commonOptions,
-            scales: {
-                ...commonOptions.scales,
-                y: {
-                    ...commonOptions.scales.y,
-                    title: {
-                        display: true,
-                        text: 'Percentage',
-                        font: {
-                            size: 12,
-                            weight: '500'
-                        }
-                    }
-                }
-            },
-            plugins: {
-                ...commonOptions.plugins,
+    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+    gradient.addColorStop(0, 'rgba(255, 51, 102, 0.3)');
+    gradient.addColorStop(1, 'rgba(255, 51, 102, 0)');
+    
+    const options = {
+        ...commonOptions,
+        scales: {
+            ...commonOptions.scales,
+            y: {
+                ...commonOptions.scales.y,
                 title: {
                     display: true,
-                    text: `Current Score: ${data.current}%`,
-                    font: {
-                        size: 14,
-                        weight: '500'
-                    },
-                    padding: {
-                        bottom: 20
+                    text: 'Percentage'
+                },
+                ticks: {
+                    callback: function(value) {
+                        return value + '%';
                     }
                 }
             }
         }
+    };
+    
+    if (chartInstances.anxiety) {
+        chartInstances.anxiety.destroy();
+    }
+    chartInstances.anxiety = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [...data.metrics.financialAnxiety.labels].reverse(),
+            datasets: [{
+                label: 'Financial Anxiety Score',
+                data: [...data.metrics.financialAnxiety.trend].reverse(),
+                borderColor: '#ff3366',
+                backgroundColor: gradient,
+                borderWidth: 2,
+                tension: 0.4,
+                fill: true,
+                pointRadius: 0
+            }]
+        },
+        options: options
     });
 }
 
 // Create Hope vs Despair Chart
 function createHopeDespairChart(data) {
     const ctx = document.getElementById('fci-hopeDespairChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: data.labels,
-            datasets: [{
-                data: data.trend,
-                borderColor: '#88dd11',
-                backgroundColor: 'rgba(136, 221, 17, 0.1)',
-                borderWidth: 2,
-                fill: true
-            }]
-        },
-        options: {
-            ...commonOptions,
-            scales: {
-                ...commonOptions.scales,
-                y: {
-                    ...commonOptions.scales.y,
-                    title: {
-                        display: true,
-                        text: 'Ratio',
-                        font: {
-                            size: 12,
-                            weight: '500'
-                        }
-                    }
-                }
-            },
-            plugins: {
-                ...commonOptions.plugins,
+    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+    gradient.addColorStop(0, 'rgba(136, 221, 17, 0.3)');
+    gradient.addColorStop(1, 'rgba(136, 221, 17, 0)');
+    
+    const options = {
+        ...commonOptions,
+        scales: {
+            ...commonOptions.scales,
+            y: {
+                ...commonOptions.scales.y,
                 title: {
                     display: true,
-                    text: `Current Ratio: ${data.current}`,
-                    font: {
-                        size: 14,
-                        weight: '500'
+                    text: 'Ratio'
+                }
+            }
+        },
+        plugins: {
+            ...commonOptions.plugins,
+            annotation: {
+                annotations: {
+                    line1: {
+                        type: 'line',
+                        yMin: 1,
+                        yMax: 1,
+                        borderColor: 'rgba(136, 221, 17, 0.5)',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        label: {
+                            content: 'Hope > Despair',
+                            enabled: true,
+                            position: 'right',
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            color: '#223354',
+                            font: {
+                                size: 12,
+                                weight: 'bold'
+                            },
+                            padding: 6,
+                            borderRadius: 4,
+                            xAdjust: 10,
+                            yAdjust: -5
+                        }
                     },
-                    padding: {
-                        bottom: 20
+                    line2: {
+                        type: 'line',
+                        yMin: 1,
+                        yMax: 1,
+                        borderColor: 'rgba(136, 221, 17, 0.5)',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        label: {
+                            content: 'Despair > Hope',
+                            enabled: true,
+                            position: 'left',
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            color: '#223354',
+                            font: {
+                                size: 12,
+                                weight: 'bold'
+                            },
+                            padding: 6,
+                            borderRadius: 4,
+                            xAdjust: -10,
+                            yAdjust: -5
+                        }
                     }
                 }
             }
         }
+    };
+    
+    if (chartInstances.hopeDespair) {
+        chartInstances.hopeDespair.destroy();
+    }
+    chartInstances.hopeDespair = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [...data.metrics.hopeDespairRatio.labels].reverse(),
+            datasets: [{
+                label: 'Hope vs Despair Ratio',
+                data: [...data.metrics.hopeDespairRatio.trend].reverse(),
+                borderColor: '#88dd11',
+                backgroundColor: gradient,
+                borderWidth: 2,
+                tension: 0.4,
+                fill: true,
+                pointRadius: 0
+            }]
+        },
+        options: options
     });
 }
 
-// Create Layoff Mentions Chart
+// Create Layoff Chart
 function createLayoffChart(data) {
     const ctx = document.getElementById('fci-layoffChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: data.labels,
-            datasets: [{
-                data: data.trend,
-                borderColor: '#ee44ee',
-                backgroundColor: 'rgba(238, 68, 238, 0.1)',
-                borderWidth: 2,
-                fill: true
-            }]
-        },
-        options: {
-            ...commonOptions,
-            scales: {
-                ...commonOptions.scales,
-                y: {
-                    ...commonOptions.scales.y,
-                    title: {
-                        display: true,
-                        text: 'Mentions (%)',
-                        font: {
-                            size: 12,
-                            weight: '500'
-                        }
-                    }
-                }
-            },
-            plugins: {
-                ...commonOptions.plugins,
+    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+    gradient.addColorStop(0, 'rgba(238, 68, 238, 0.3)');
+    gradient.addColorStop(1, 'rgba(238, 68, 238, 0)');
+    
+    const options = {
+        ...commonOptions,
+        scales: {
+            ...commonOptions.scales,
+            y: {
+                ...commonOptions.scales.y,
                 title: {
                     display: true,
-                    text: `Current Mentions: ${data.current}%`,
-                    font: {
-                        size: 14,
-                        weight: '500'
-                    },
-                    padding: {
-                        bottom: 20
+                    text: 'Percentage'
+                },
+                ticks: {
+                    callback: function(value) {
+                        return value + '%';
                     }
                 }
             }
         }
+    };
+    
+    if (chartInstances.layoff) {
+        chartInstances.layoff.destroy();
+    }
+    chartInstances.layoff = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [...data.metrics.layoffMentions.labels].reverse(),
+            datasets: [{
+                label: 'Layoff Mentions',
+                data: [...data.metrics.layoffMentions.trend].reverse(),
+                borderColor: '#ee44ee',
+                backgroundColor: gradient,
+                borderWidth: 2,
+                tension: 0.4,
+                fill: true,
+                pointRadius: 0
+            }]
+        },
+        options: options
     });
 }
 
-// Create Consumer Behavior Chart
+// Create Consumer Chart
 function createConsumerChart(data) {
     const ctx = document.getElementById('fci-consumerChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: data.labels,
-            datasets: [{
-                data: data.trend,
-                borderColor: '#aa77ff',
-                backgroundColor: 'rgba(170, 119, 255, 0.1)',
-                borderWidth: 2,
-                fill: true
-            }]
-        },
-        options: {
-            ...commonOptions,
-            scales: {
-                ...commonOptions.scales,
-                y: {
-                    ...commonOptions.scales.y,
-                    title: {
-                        display: true,
-                        text: 'Index Score',
-                        font: {
-                            size: 12,
-                            weight: '500'
-                        }
-                    }
-                }
-            },
-            plugins: {
-                ...commonOptions.plugins,
+    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+    gradient.addColorStop(0, 'rgba(170, 119, 255, 0.3)');
+    gradient.addColorStop(1, 'rgba(170, 119, 255, 0)');
+    
+    const options = {
+        ...commonOptions,
+        scales: {
+            ...commonOptions.scales,
+            y: {
+                ...commonOptions.scales.y,
                 title: {
                     display: true,
-                    text: `Current Index: ${data.current}`,
-                    font: {
-                        size: 14,
-                        weight: '500'
-                    },
-                    padding: {
-                        bottom: 20
+                    text: 'Percentage'
+                },
+                ticks: {
+                    callback: function(value) {
+                        return value + '%';
                     }
                 }
             }
         }
+    };
+    
+    if (chartInstances.consumer) {
+        chartInstances.consumer.destroy();
+    }
+    chartInstances.consumer = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [...data.metrics.consumerBehavior.labels].reverse(),
+            datasets: [{
+                label: 'Consumer Behavior Index',
+                data: [...data.metrics.consumerBehavior.trend].reverse(),
+                borderColor: '#aa77ff',
+                backgroundColor: gradient,
+                borderWidth: 2,
+                tension: 0.4,
+                fill: true,
+                pointRadius: 0
+            }]
+        },
+        options: options
     });
 }
+
+// Load and display data
+function loadData() {
+    fetch('data.json')
+        .then(response => response.json())
+        .then(data => {
+            // Format the date to be more readable
+            const date = new Date(data.lastUpdated);
+            const formattedDate = date.toLocaleString('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+            });
+            document.getElementById('lastUpdated').textContent = formattedDate;
+            
+            // Get the first and last dates from the labels
+            const labels = data.metrics.esi.labels;
+            const startDate = labels[labels.length - 1];
+            const endDate = labels[0];
+            
+            // Add the current year to the dates
+            const currentYear = new Date().getFullYear();
+            document.getElementById('datasetStart').textContent = `${startDate}, ${currentYear}`;
+            document.getElementById('datasetEnd').textContent = `${endDate}, ${currentYear}`;
+            
+            // Create all charts
+            createESIChart(data);
+            createAnxietyChart(data);
+            createHopeDespairChart(data);
+            createLayoffChart(data);
+            createConsumerChart(data);
+        })
+        .catch(error => console.error('Error loading data:', error));
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', loadData);
 
 // Handle navigation active state
 function updateActiveNav() {
@@ -537,4 +420,69 @@ document.addEventListener('DOMContentLoaded', () => {
         clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(updateActiveNav, 50);
     });
-}); 
+});
+
+function createLineChart(canvasId, data, color) {
+    const ctx = document.getElementById(canvasId).getContext('2d');
+    return new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: data.labels,
+            datasets: [{
+                data: data.trend,
+                borderColor: color,
+                backgroundColor: color + '20',
+                borderWidth: 2,
+                tension: 0.4,
+                fill: true,
+                pointRadius: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.parsed.y.toFixed(1)}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        maxRotation: 45,
+                        minRotation: 45,
+                        maxTicksLimit: 7,
+                        font: {
+                            size: 10
+                        }
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    },
+                    ticks: {
+                        maxTicksLimit: 5,
+                        font: {
+                            size: 10
+                        }
+                    }
+                }
+            }
+        }
+    });
+} 

@@ -27,9 +27,9 @@ body {
 }
 
 .fci-container {
-    max-width: 1400px;
+    max-width: 1600px;
     margin: 0 auto;
-    padding: 0;
+    padding: 0 2rem;
     position: relative;
 }
 
@@ -40,16 +40,16 @@ body {
 }
 
 .fci-header {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     padding: 0;
     position: relative;
     width: 100%;
 }
 
 .fci-header-content {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 1.5rem 0;
 }
 
 .fci-title {
@@ -82,10 +82,60 @@ body {
     margin-top: 1.5rem;
 }
 
+.fci-last-updated {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: white;
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.fci-last-updated-label {
+    color: var(--fci-primary);
+    font-weight: 500;
+}
+
+.fci-last-updated-time {
+    color: var(--fci-primary-dark);
+    font-weight: 500;
+}
+
+.fci-dataset-duration {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: white;
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.fci-dataset-label {
+    color: var(--fci-primary);
+    font-weight: 500;
+}
+
+.fci-dataset-start,
+.fci-dataset-end {
+    color: var(--fci-primary-dark);
+    font-weight: 500;
+}
+
+.fci-dataset-separator {
+    color: var(--fci-primary-dark);
+    font-weight: 400;
+}
+
 .fci-toc-sidebar {
     position: fixed;
     top: 2rem;
-    right: calc((100% - 1400px) / 2 + 2rem);
+    right: calc((100% - 1600px) / 2 + 2rem);
     height: fit-content;
     width: 250px;
     z-index: 100;
@@ -148,15 +198,15 @@ body {
 }
 
 .fci-content-wrapper {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0;
     position: relative;
 }
 
 .fci-section {
-    margin-bottom: 5rem;
-    padding: 2rem 0;
+    margin-bottom: 2rem;
+    padding: 0.5rem 0;
 }
 
 .fci-section-header {
@@ -171,7 +221,7 @@ body {
 .fci-section-description {
     color: var(--fci-primary-dark);
     font-size: 1.1rem;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
     line-height: 1.8;
     max-width: 800px;
 }
@@ -179,9 +229,9 @@ body {
 .fci-card {
     background-color: white;
     border-radius: 12px;
-    padding: 2rem;
+    padding: 1.5rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    margin-bottom: 2.5rem;
+    margin-bottom: 1rem;
     width: 100%;
 }
 
@@ -214,10 +264,42 @@ body {
 }
 
 .fci-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.fci-metric-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
-    margin-top: 2.5rem;
+    height: 100%;
+}
+
+.fci-metric-header {
+    margin-bottom: 1rem;
+}
+
+.fci-metric-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #223354;
+    margin: 0;
+}
+
+.fci-metric-content {
+    flex: 1;
+}
+
+.fci-metric-description {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #6b7280;
+    margin: 0;
 }
 
 .fci-footer {
@@ -229,34 +311,275 @@ body {
     border-top: 1px solid var(--fci-light-2);
 }
 
-@media (max-width: 1024px) {
+.fci-methodology-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.fci-methodology-list li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+}
+
+.fci-methodology-list li:before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+}
+
+.fci-methodology-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.fci-methodology-icon {
+    font-size: 2rem;
+    color: var(--fci-primary);
+    margin-right: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.4rem;
+    width: 2.4rem;
+}
+
+.fci-methodology-card h3 {
+    font-size: 1.2rem;
+    color: var(--fci-primary);
+    margin-bottom: 1rem;
+    display: inline-flex;
+    align-items: center;
+    height: 2.4rem;
+    line-height: 1;
+}
+
+.fci-methodology-card p {
+    color: var(--fci-primary-dark);
+    line-height: 1.6;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+}
+
+.fci-methodology-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+@media (max-width: 1700px) {
+    .fci-toc-sidebar {
+        right: 2rem;
+    }
+}
+
+@media (max-width: 1200px) {
+    .fci-container {
+        padding: 0 1.5rem;
+    }
+    
     .fci-toc-sidebar {
         position: static;
         width: 100%;
         margin: 2rem 0;
-        float: none;
+    }
+    
+    .fci-toc-content {
+        padding: 1rem;
     }
     
     .fci-toc-nav {
         flex-direction: row;
         flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .fci-toc-link {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
     }
     
     .fci-content-wrapper {
-        padding: 0 1rem;
+        padding: 0;
     }
 }
 
 @media (max-width: 768px) {
+    .fci-container {
+        padding: 0 1rem;
+    }
+    
+    .fci-header {
+        margin-bottom: 0.75rem;
+    }
+    
+    .fci-header-content {
+        padding: 1.25rem 0;
+    }
+    
     .fci-title {
-        font-size: 2rem;
+        font-size: 1.75rem;
+        line-height: 1.2;
+    }
+    
+    .fci-subtitle {
+        font-size: 1.1rem;
+        line-height: 1.4;
+    }
+    
+    .fci-section {
+        margin-bottom: 1.5rem;
+    }
+    
+    .fci-section-header {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+    }
+    
+    .fci-section-description {
+        font-size: 1rem;
+        margin-bottom: 1rem;
     }
     
     .fci-metrics-grid {
-        gap: 2rem;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
     
-    .fci-card {
-        padding: 1.5rem;
+    .fci-metric-card {
+        padding: 1.25rem;
+    }
+    
+    .fci-metric-title {
+        font-size: 1rem;
+    }
+    
+    .fci-metric-description {
+        font-size: 0.9rem;
+    }
+    
+    .fci-chart-container {
+        height: 250px;
+    }
+    
+    .fci-toc-sidebar {
+        margin: 1.5rem 0;
+    }
+    
+    .fci-toc-title {
+        font-size: 1.1rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .fci-toc-nav {
+        gap: 0.5rem;
+    }
+    
+    .fci-toc-link {
+        padding: 0.5rem;
+        font-size: 0.85rem;
+    }
+    
+    .fci-methodology-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .fci-methodology-card {
+        padding: 1.25rem;
+    }
+    
+    .fci-methodology-icon {
+        font-size: 1.75rem;
+        margin-right: 0.75rem;
+        height: 2.1rem;
+        width: 2.1rem;
+    }
+    
+    .fci-methodology-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.75rem;
+        height: 2.1rem;
+    }
+    
+    .fci-methodology-card p {
+        font-size: 0.9rem;
+    }
+    
+    .fci-last-updated {
+        font-size: 0.85rem;
+        padding: 0.6rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .fci-title {
+        font-size: 1.5rem;
+    }
+    
+    .fci-subtitle {
+        font-size: 1rem;
+    }
+    
+    .fci-section-header {
+        font-size: 1.3rem;
+    }
+    
+    .fci-metric-card {
+        padding: 1rem;
+    }
+    
+    .fci-chart-container {
+        height: 200px;
+    }
+    
+    .fci-toc-nav {
+        flex-direction: column;
+    }
+    
+    .fci-toc-link {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .fci-methodology-grid {
+        gap: 1rem;
+    }
+    
+    .fci-methodology-card {
+        padding: 1rem;
+    }
+    
+    .fci-methodology-card h3 {
+        font-size: 1rem;
+    }
+    
+    .fci-methodology-card p {
+        font-size: 0.85rem;
+    }
+    
+    .fci-last-updated {
+        font-size: 0.8rem;
+        padding: 0.5rem 0.8rem;
+    }
+    
+    .fci-header {
+        margin-bottom: 0.5rem;
+    }
+    
+    .fci-header-content {
+        padding: 1rem 0;
+    }
+    
+    .fci-section {
+        margin-bottom: 1.25rem;
     }
 } 

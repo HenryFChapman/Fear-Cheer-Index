@@ -6,7 +6,9 @@
     <title>Infegy's Fear & Cheer Index</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
 </head>
 <body>
     <div class="fci-container">
@@ -15,6 +17,16 @@
                 <div class="fci-header-content">
                     <h1 class="fci-title">Infegy's Fear & Cheer Index</h1>
                     <p class="fci-subtitle">Real-time social listening insights tracking economic sentiment across multiple indicators and platforms.</p>
+                    <div class="fci-last-updated">
+                        <span class="fci-last-updated-label">Data Last Updated:</span>
+                        <span class="fci-last-updated-time" id="lastUpdated"></span>
+                    </div>
+                    <div class="fci-dataset-duration">
+                        <span class="fci-dataset-label">Dataset Range:</span>
+                        <span class="fci-dataset-start" id="datasetStart"></span>
+                        <span class="fci-dataset-separator">to</span>
+                        <span class="fci-dataset-end" id="datasetEnd"></span>
+                    </div>
                 </div>
             </header>
 
@@ -26,6 +38,7 @@
                         <a href="#financial-health" class="fci-toc-link">Financial Health</a>
                         <a href="#labor-market" class="fci-toc-link">Labor Market</a>
                         <a href="#consumer-sentiment" class="fci-toc-link">Consumer Sentiment</a>
+                        <a href="#methodology" class="fci-toc-link">Methodology</a>
                     </nav>
                 </div>
             </aside>
@@ -35,14 +48,17 @@
                     <h2 class="fci-section-header">📊 Overall Economic Sentiment</h2>
                     <p class="fci-section-description">A comprehensive view of how people feel about the economy, combining various sentiment indicators and economic discussions across social platforms.</p>
                     
-                    <div class="fci-card">
-                        <h3 class="fci-card-title">Economic Sentiment Index (ESI)</h3>
-                        <p class="fci-metric-description">Composite score tracking overall economic sentiment, combining positive and negative mentions across social media.</p>
-                        <div class="fci-gauge-container">
-                            <canvas id="fci-esiGauge"></canvas>
-                        </div>
-                        <div class="fci-chart-container">
-                            <canvas id="fci-esiChart"></canvas>
+                    <div class="fci-metrics-grid">
+                        <div class="fci-metric-card">
+                            <div class="fci-metric-header">
+                                <h3 class="fci-metric-title">Economic Sentiment Index (ESI)</h3>
+                                <p class="fci-metric-description">Composite score tracking overall economic sentiment</p>
+                            </div>
+                            <div class="fci-metric-content">
+                                <div class="fci-chart-container">
+                                    <canvas id="fci-esiChart"></canvas>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -52,25 +68,27 @@
                     <p class="fci-section-description">Measures of financial anxiety and optimism, tracking how people discuss their personal financial situations and outlook.</p>
                     
                     <div class="fci-metrics-grid">
-                        <div class="fci-card">
-                            <h3 class="fci-card-title">Financial Anxiety Score</h3>
-                            <p class="fci-metric-description">Percentage of posts expressing financial stress, uncertainty, or concern about personal finances.</p>
-                            <div class="fci-gauge-container">
-                                <canvas id="fci-anxietyGauge"></canvas>
+                        <div class="fci-metric-card">
+                            <div class="fci-metric-header">
+                                <h3 class="fci-metric-title">Financial Anxiety Score</h3>
+                                <p class="fci-metric-description">Percentage of posts expressing financial stress or concern</p>
                             </div>
-                            <div class="fci-chart-container">
-                                <canvas id="fci-anxietyChart"></canvas>
+                            <div class="fci-metric-content">
+                                <div class="fci-chart-container">
+                                    <canvas id="fci-anxietyChart"></canvas>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="fci-card">
-                            <h3 class="fci-card-title">Hope vs. Despair Ratio</h3>
-                            <p class="fci-metric-description">Ratio of optimistic to pessimistic financial discussions, indicating overall financial outlook.</p>
-                            <div class="fci-gauge-container">
-                                <canvas id="fci-hopeDespairGauge"></canvas>
+                        <div class="fci-metric-card">
+                            <div class="fci-metric-header">
+                                <h3 class="fci-metric-title">Hope vs. Despair Ratio</h3>
+                                <p class="fci-metric-description">Ratio of optimistic to pessimistic financial discussions</p>
                             </div>
-                            <div class="fci-chart-container">
-                                <canvas id="fci-hopeDespairChart"></canvas>
+                            <div class="fci-metric-content">
+                                <div class="fci-chart-container">
+                                    <canvas id="fci-hopeDespairChart"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -80,14 +98,17 @@
                     <h2 class="fci-section-header">👔 Labor Market Pulse</h2>
                     <p class="fci-section-description">Tracking employment-related discussions, from layoff concerns to job market optimism.</p>
                     
-                    <div class="fci-card">
-                        <h3 class="fci-card-title">Layoff Mentions</h3>
-                        <p class="fci-metric-description">Volume of discussions about layoffs, job losses, and employment uncertainty.</p>
-                        <div class="fci-gauge-container">
-                            <canvas id="fci-layoffGauge"></canvas>
-                        </div>
-                        <div class="fci-chart-container">
-                            <canvas id="fci-layoffChart"></canvas>
+                    <div class="fci-metrics-grid">
+                        <div class="fci-metric-card">
+                            <div class="fci-metric-header">
+                                <h3 class="fci-metric-title">Layoff Mentions</h3>
+                                <p class="fci-metric-description">Percentage of conversations discussing layoffs and job losses</p>
+                            </div>
+                            <div class="fci-metric-content">
+                                <div class="fci-chart-container">
+                                    <canvas id="fci-layoffChart"></canvas>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -96,21 +117,57 @@
                     <h2 class="fci-section-header">🛍️ Consumer Behavior</h2>
                     <p class="fci-section-description">Insights into consumer confidence and spending patterns based on social media discussions.</p>
                     
-                    <div class="fci-card">
-                        <h3 class="fci-card-title">Consumer Behavior Index</h3>
-                        <p class="fci-metric-description">Measure of consumer confidence and spending intentions based on social media sentiment.</p>
-                        <div class="fci-gauge-container">
-                            <canvas id="fci-consumerGauge"></canvas>
-                        </div>
-                        <div class="fci-chart-container">
-                            <canvas id="fci-consumerChart"></canvas>
+                    <div class="fci-metrics-grid">
+                        <div class="fci-metric-card">
+                            <div class="fci-metric-header">
+                                <h3 class="fci-metric-title">Consumer Behavior Index</h3>
+                                <p class="fci-metric-description">Measure of consumer confidence and spending intentions</p>
+                            </div>
+                            <div class="fci-metric-content">
+                                <div class="fci-chart-container">
+                                    <canvas id="fci-consumerChart"></canvas>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
 
-                <footer class="fci-footer">
-                    <p>Data updated every hour | Last updated: <span id="lastUpdated"></span></p>
-                </footer>
+                <section id="methodology" class="fci-section">
+                    <h2 class="fci-section-header">Methodology</h2>
+                    <p class="fci-section-description">
+                        The Fear-Cheer Index is calculated using advanced sentiment analysis of social media and news data. Our methodology combines multiple metrics to provide a comprehensive view of economic sentiment.
+                    </p>
+                    <div class="fci-methodology-grid">
+                        <div class="fci-methodology-card">
+                            <div class="fci-methodology-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <h3>Data Collection</h3>
+                            <p>We analyze millions of social media posts and news articles daily, focusing on economic and financial discussions. Our data sources include major social media platforms, news outlets, and financial forums.</p>
+                        </div>
+                        <div class="fci-methodology-card">
+                            <div class="fci-methodology-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h3>Sentiment Analysis</h3>
+                            <p>Using natural language processing, we classify each mention as positive, negative, or neutral. The analysis considers context, tone, and economic implications of the content.</p>
+                        </div>
+                        <div class="fci-methodology-card">
+                            <div class="fci-methodology-icon">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <h3>Metric Calculation</h3>
+                            <p>Each metric is calculated using weighted sentiment scores, normalized against total volume. This ensures consistent measurement across different time periods and topics.</p>
+                        </div>
+                        <div class="fci-methodology-card">
+                            <div class="fci-methodology-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3>Index Composition</h3>
+                            <p>The Fear-Cheer Index combines multiple sentiment indicators, each weighted based on their historical correlation with economic outcomes and market movements.</p>
+                        </div>
+                    </div>
+                </section>
             </div>
         </main>
     </div>

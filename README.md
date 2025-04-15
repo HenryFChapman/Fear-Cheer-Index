@@ -1,1 +1,0 @@
-# Fear-Cheer-Index
