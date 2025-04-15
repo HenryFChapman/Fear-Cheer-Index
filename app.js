@@ -88,10 +88,10 @@ function createESIChart(data) {
     chartInstances.esi = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: [...data.metrics.esi.labels].reverse(),
+            labels: data.metrics.esi.labels,
             datasets: [{
                 label: 'Economic Sentiment Index',
-                data: [...data.metrics.esi.trend].reverse(),
+                data: data.metrics.esi.trend,
                 borderColor: '#22aaff',
                 backgroundColor: gradient,
                 borderWidth: 2,
@@ -136,10 +136,10 @@ function createAnxietyChart(data) {
     chartInstances.anxiety = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: [...data.metrics.financialAnxiety.labels].reverse(),
+            labels: data.metrics.financialAnxiety.labels,
             datasets: [{
                 label: 'Financial Anxiety Score',
-                data: [...data.metrics.financialAnxiety.trend].reverse(),
+                data: data.metrics.financialAnxiety.trend,
                 borderColor: '#ff3366',
                 backgroundColor: gradient,
                 borderWidth: 2,
@@ -170,59 +170,6 @@ function createHopeDespairChart(data) {
                     text: 'Ratio'
                 }
             }
-        },
-        plugins: {
-            ...commonOptions.plugins,
-            annotation: {
-                annotations: {
-                    line1: {
-                        type: 'line',
-                        yMin: 1,
-                        yMax: 1,
-                        borderColor: 'rgba(136, 221, 17, 0.5)',
-                        borderWidth: 2,
-                        borderDash: [5, 5],
-                        label: {
-                            content: 'Hope > Despair',
-                            enabled: true,
-                            position: 'right',
-                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                            color: '#223354',
-                            font: {
-                                size: 12,
-                                weight: 'bold'
-                            },
-                            padding: 6,
-                            borderRadius: 4,
-                            xAdjust: 10,
-                            yAdjust: -5
-                        }
-                    },
-                    line2: {
-                        type: 'line',
-                        yMin: 1,
-                        yMax: 1,
-                        borderColor: 'rgba(136, 221, 17, 0.5)',
-                        borderWidth: 2,
-                        borderDash: [5, 5],
-                        label: {
-                            content: 'Despair > Hope',
-                            enabled: true,
-                            position: 'left',
-                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                            color: '#223354',
-                            font: {
-                                size: 12,
-                                weight: 'bold'
-                            },
-                            padding: 6,
-                            borderRadius: 4,
-                            xAdjust: -10,
-                            yAdjust: -5
-                        }
-                    }
-                }
-            }
         }
     };
     
@@ -232,10 +179,10 @@ function createHopeDespairChart(data) {
     chartInstances.hopeDespair = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: [...data.metrics.hopeDespairRatio.labels].reverse(),
+            labels: data.metrics.hopeDespairRatio.labels,
             datasets: [{
                 label: 'Hope vs Despair Ratio',
-                data: [...data.metrics.hopeDespairRatio.trend].reverse(),
+                data: data.metrics.hopeDespairRatio.trend,
                 borderColor: '#88dd11',
                 backgroundColor: gradient,
                 borderWidth: 2,
@@ -280,10 +227,10 @@ function createLayoffChart(data) {
     chartInstances.layoff = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: [...data.metrics.layoffMentions.labels].reverse(),
+            labels: data.metrics.layoffMentions.labels,
             datasets: [{
                 label: 'Layoff Mentions',
-                data: [...data.metrics.layoffMentions.trend].reverse(),
+                data: data.metrics.layoffMentions.trend,
                 borderColor: '#ee44ee',
                 backgroundColor: gradient,
                 borderWidth: 2,
@@ -328,10 +275,10 @@ function createConsumerChart(data) {
     chartInstances.consumer = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: [...data.metrics.consumerBehavior.labels].reverse(),
+            labels: data.metrics.consumerBehavior.labels,
             datasets: [{
-                label: 'Consumer Behavior Index',
-                data: [...data.metrics.consumerBehavior.trend].reverse(),
+                label: 'Consumer Behavior',
+                data: data.metrics.consumerBehavior.trend,
                 borderColor: '#aa77ff',
                 backgroundColor: gradient,
                 borderWidth: 2,
@@ -377,6 +324,13 @@ function loadData() {
             createHopeDespairChart(data);
             createLayoffChart(data);
             createConsumerChart(data);
+
+            // Update metric stats
+            updateMetricStats('esi', data.metrics.esi);
+            updateMetricStats('anxiety', data.metrics.financialAnxiety);
+            updateMetricStats('hopeDespair', data.metrics.hopeDespairRatio);
+            updateMetricStats('layoff', data.metrics.layoffMentions);
+            updateMetricStats('consumer', data.metrics.consumerBehavior);
         })
         .catch(error => console.error('Error loading data:', error));
 }
@@ -485,4 +439,49 @@ function createLineChart(canvasId, data, color) {
             }
         }
     });
+}
+
+function updateMetricStats(metricId, data) {
+    const netSentiment = document.getElementById(`${metricId}-net-sentiment`);
+    const shortTerm = document.getElementById(`${metricId}-short-term`);
+    const longTerm = document.getElementById(`${metricId}-long-term`);
+    const direction = document.getElementById(`${metricId}-direction`);
+
+    // Only update if the element exists
+    if (netSentiment && data.net_sentiment !== undefined) {
+        netSentiment.textContent = `${data.net_sentiment}%`;
+    }
+
+    if (shortTerm && longTerm && direction && data.growth) {
+        shortTerm.textContent = `${data.growth.short_term}%`;
+        longTerm.textContent = `${data.growth.long_term}%`;
+        
+        // Set direction with appropriate icon
+        const directionMap = {
+            'up': '↑',
+            'down': '↓',
+            'neutral': '→'
+        };
+        direction.textContent = directionMap[data.growth.direction] || '--';
+        
+        // Add color classes based on direction
+        direction.className = 'fci-stat-value';
+        if (data.growth.direction === 'up') {
+            direction.classList.add('fci-trend-up');
+        } else if (data.growth.direction === 'down') {
+            direction.classList.add('fci-trend-down');
+        }
+    }
+}
+
+// Add this to your existing chart initialization code
+function initializeCharts(data) {
+    // ... existing chart initialization code ...
+
+    // Update metric stats
+    updateMetricStats('esi', data.metrics.esi);
+    updateMetricStats('anxiety', data.metrics.financialAnxiety);
+    updateMetricStats('hopeDespair', data.metrics.hopeDespairRatio);
+    updateMetricStats('layoff', data.metrics.layoffMentions);
+    updateMetricStats('consumer', data.metrics.consumerBehavior);
 } 
