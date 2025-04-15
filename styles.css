@@ -132,6 +132,51 @@ body {
     font-weight: 400;
 }
 
+.fci-cta {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.fci-cta-link {
+    display: inline-flex;
+    align-items: center;
+    background: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--fci-primary-dark);
+    font-weight: 500;
+    font-size: 1rem;
+    border: 2px solid var(--fci-primary-dark);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+}
+
+.fci-cta-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background-color: var(--fci-primary-dark);
+    color: white;
+}
+
+.fci-cta-text {
+    color: var(--fci-primary-dark);
+    transition: color 0.2s ease;
+}
+
+.fci-cta-link:hover .fci-cta-text {
+    color: white;
+}
+
+.fci-cta-link i {
+    font-size: 1rem;
+    transition: transform 0.2s ease;
+}
+
+.fci-cta-link:hover i {
+    transform: translateX(4px);
+}
+
 .fci-toc-sidebar {
     position: fixed;
     top: 2rem;
