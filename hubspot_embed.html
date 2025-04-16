@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infegy's Fear & Cheer Index</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+    <style>
+        :root {
+            --fci-primary: #22aaff;
+            --fci-primary-dark: #005588;
+            --fci-secondary: #22dddd;
+            --fci-accent-1: #88dd11;
+            --fci-accent-2: #ee44ee;
+            --fci-accent-3: #aa77ff;
+            --fci-accent-4: #ffdd00;
+            --fci-accent-5: #88ccff;
+            --fci-dark: #223354;
+            --fci-error: #ff3366;
+            --fci-light-1: #f2f3fe;
+            --fci-light-2: #efedfb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--fci-light-1);
+            color: var(--fci-dark);
+            line-height: 1.6;
+        }
+
+        .fci-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        .fci-nav {
+            background: white;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(34, 51, 84, 0.1);
+            margin-bottom: 2rem;
+            border-radius: 12px;
+        }
+
+        .fci-nav-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .fci-nav-title {
+            color: var(--fci-dark);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        .fci-nav-links {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .fci-nav-link {
+            color: var(--fci-primary-dark);
+            text-decoration: none;
+            font-weight: 500;
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
+            white-space: nowrap;
+            font-size: 0.95rem;
+        }
+
+        .fci-nav-link:hover {
+            opacity: 1;
+        }
+
+        .fci-main-content {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .fci-header {
+            margin-bottom: 1rem;
+            padding: 0;
+            position: relative;
+            width: 100%;
+        }
+
+        .fci-header-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 1.5rem 0;
+        }
+
+        .fci-title {
+            color: var(--fci-dark);
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            position: relative;
+            display: inline-block;
+        }
+
+        .fci-title::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--fci-primary);
+            border-radius: 2px;
+        }
+
+        .fci-subtitle {
+            color: var(--fci-primary-dark);
+            font-size: 1.3rem;
+            font-weight: 400;
+            line-height: 1.6;
+            max-width: 600px;
+            margin-top: 1.5rem;
+        }
+
+        .fci-last-updated {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            padding: 0.75rem 0;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .fci-last-updated-label {
+            color: var(--fci-primary-dark);
+            font-weight: 500;
+            opacity: 0.8;
+        }
+
+        .fci-last-updated-time {
+            color: var(--fci-dark);
+            font-weight: 500;
+        }
+
+        .fci-dataset-duration {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            padding: 0.75rem 0;
+            margin: 0;
+            font-size: 0.9rem;
+            margin-left: 1rem;
+        }
+
+        .fci-dataset-label {
+            color: var(--fci-primary-dark);
+            font-weight: 500;
+            opacity: 0.8;
+        }
+
+        .fci-dataset-start,
+        .fci-dataset-end {
+            color: var(--fci-dark);
+            font-weight: 500;
+        }
+
+        .fci-dataset-separator {
+            color: var(--fci-primary-dark);
+            font-weight: 400;
+            opacity: 0.8;
+        }
+
+        .fci-content-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0;
+            position: relative;
+        }
+
+        .fci-section {
+            margin-bottom: 2rem;
+            padding: 0.5rem 0;
+            scroll-margin-top: 20px;
+        }
+
+        .fci-section-header {
+            color: var(--fci-dark);
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--fci-light-2);
+        }
+
+        .fci-section-description {
+            color: var(--fci-primary-dark);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            max-width: 800px;
+        }
+
+        .fci-metric-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+            padding: 0;
+            width: 100%;
+        }
+
+        .fci-stat-box {
+            background: white;
+            padding: 1.25rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            border: 1px solid rgba(34, 51, 84, 0.1);
+        }
+
+        .fci-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--fci-dark);
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .fci-stat-label {
+            font-size: 0.9rem;
+            color: var(--fci-primary-dark);
+            font-weight: 500;
+            opacity: 0.8;
+        }
+
+        .fci-trend-up {
+            color: var(--fci-accent-1);
+        }
+
+        .fci-trend-down {
+            color: var(--fci-error);
+        }
+
+        .fci-metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .fci-metric-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .fci-metric-header {
+            margin-bottom: 1rem;
+        }
+
+        .fci-metric-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #223354;
+            margin: 0;
+        }
+
+        .fci-metric-description {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #6b7280;
+            margin: 0;
+        }
+
+        .fci-chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .fci-cta {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .fci-cta-link {
+            display: inline-flex;
+            align-items: center;
+            background: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--fci-primary-dark);
+            font-weight: 500;
+            font-size: 1rem;
+            border: 2px solid var(--fci-primary-dark);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        .fci-cta-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            background-color: var(--fci-primary-dark);
+            color: white;
+        }
+
+        .fci-cta-text {
+            color: var(--fci-primary-dark);
+            transition: color 0.2s ease;
+        }
+
+        .fci-cta-link:hover .fci-cta-text {
+            color: white;
+        }
+
+        .fci-methodology-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .fci-methodology-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .fci-methodology-icon {
+            font-size: 2rem;
+            color: var(--fci-primary);
+            margin-right: 1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 2.4rem;
+            width: 2.4rem;
+        }
+
+        .fci-methodology-card h3 {
+            font-size: 1.2rem;
+            color: var(--fci-primary);
+            margin-bottom: 1rem;
+            display: inline-flex;
+            align-items: center;
+            height: 2.4rem;
+            line-height: 1;
+        }
+
+        .fci-methodology-card p {
+            color: var(--fci-primary-dark);
+            line-height: 1.6;
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 1200px) {
+            .fci-nav-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .fci-nav-links {
+                width: 100%;
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .fci-container {
+                padding: 0 1rem;
+            }
+            
+            .fci-nav {
+                padding: 1rem;
+            }
+            
+            .fci-nav-title {
+                font-size: 1.25rem;
+            }
+            
+            .fci-nav-links {
+                gap: 1rem;
+            }
+            
+            .fci-nav-link {
+                font-size: 0.9rem;
+            }
+            
+            .fci-title {
+                font-size: 1.75rem;
+            }
+            
+            .fci-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .fci-metric-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .fci-methodology-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .fci-metric-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .fci-nav-links {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="fci-container">
+        <nav class="fci-nav">
+            <div class="fci-nav-content">
+                <h1 class="fci-nav-title">Fear-Cheer Index</h1>
+                <div class="fci-nav-links">
+                    <a href="#overall-sentiment" class="fci-nav-link">Overall Economic Sentiment</a>
+                    <a href="#financial-health" class="fci-nav-link">Financial Health Indicators</a>
+                    <a href="#labor-market" class="fci-nav-link">Labor Market Pulse</a>
+                    <a href="#consumer-sentiment" class="fci-nav-link">Consumer Behavior</a>
+                    <a href="#methodology" class="fci-nav-link">Methodology</a>
+                </div>
+            </div>
+        </nav>
+        <main class="fci-main-content">
+            <header class="fci-header">
+                <div class="fci-header-content">
+                    <h1 class="fci-title">Infegy's Fear & Cheer Index</h1>
+                    <p class="fci-subtitle">Real-time social listening insights tracking economic sentiment across multiple indicators and platforms.</p>
+                    <div class="fci-last-updated">
+                        <span class="fci-last-updated-label">Data Last Updated:</span>
+                        <span class="fci-last-updated-time" id="lastUpdated"></span>
+                    </div>
+                    <div class="fci-dataset-duration">
+                        <span class="fci-dataset-label">Dataset Range:</span>
+                        <span class="fci-dataset-start" id="datasetStart"></span>
+                        <span class="fci-dataset-separator">to</span>
+                        <span class="fci-dataset-end" id="datasetEnd"></span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="fci-content-wrapper">
+                <section id="overall-sentiment" class="fci-section">
+                    <h2 class="fci-section-header">📊 Overall Economic Sentiment</h2>
+                    <p class="fci-section-description">A comprehensive view of how people feel about the economy, combining various sentiment indicators and economic discussions across social platforms.</p>
+                    
+                    <div class="fci-metric-stats">
+                        <div class="fci-stat-box">
+                            <div class="fci-stat-value" id="esi-net-sentiment">--%</div>
+                            <div class="fci-stat-label">Net Sentiment</div>
+                        </div>
+                        <div class="fci-stat-box">
+                            <div class="fci-stat-value" id="esi-short-term">--%</div>
+                            <div class="fci-stat-label">7-Day Growth</div>
+                        </div>
+                        <div class="fci-stat-box">
+                            <div class="fci-stat-value" id="esi-long-term">--%</div>
+                            <div class="fci-stat-label">30-Day Growth</div>
+                        </div>
+                        <div class="fci-stat-box">
+                            <div class="fci-stat-value" id="esi-direction">--</div>
+                            <div class="fci-stat-label">Trend</div>
+                        </div>
+                    </div>
+                    
+                    <div class="fci-metrics-grid">
+                        <div class="fci-metric-card">
+                            <div class="fci-metric-header">
+                                <h3 class="fci-metric-title">Economic Sentiment Index (ESI)</h3>
+                                <p class="fci-metric-description">Composite score tracking overall economic sentiment</p>
+                            </div>
+                            <div class="fci-metric-content">
+                                <div class="fci-chart-container">
+                                    <canvas id="fci-esiChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="fci-cta">
+                    <a href="http://www.infegy.com/demo" class="fci-cta-link">
+                        <span class="fci-cta-text">See how Infegy's social listening platform can transform your insights</span>
+                    </a>
+                </div>
+
+                <section id="financial-health" class="fci-section">
+                    <h2 class="fci-section-header">💰 Financial Health Indicators</h2>
+                    <p class="fci-section-description">Measures of financial anxiety and optimism, tracking how people discuss their personal financial situations and outlook.</p>
+                    
+                    <div class="fci-metric-stats">
+                        <div class="fci-stat-box">
+                            <div class="fci-stat-value" id="anxiety-net-sentiment">--%</div>
+                            <div class="fci-stat-label">Net Sentiment</div>
+                        </div>
+                        <div class="fci-stat-box">
+                            <div class="fci-stat-value" id="anxiety-short-term">--%</div>
+                            <div class="fci-stat-label">7-Day Growth</div>
+                        </div>
+                        <div class="fci-stat-box">
+                            <div class="fci-stat-value" id="anxiety-long-term">--%</div>
+                            <div class="fci-stat-label">30-Day Growth</div>
+                        </div>
+                        <div class="fci-stat-box">
+                            <div class="fci-stat-value" id="anxiety-direction">--</div>
+                            <div class="fci-stat-label">Trend</div>
+                        </div>
+                    </div>
+                    
+                    <div class="fci-metrics-grid">
+                        <div class="fci-metric-card">
+                            <div class="fci-metric-header">
+                                <h3 class="fci-metric-title">Financial Anxiety Score</h3>
+                                <p class="fci-metric-description">Percentage of posts expressing financial stress or concern</p>
+                            </div>
+                            <div class="fci-metric-content">
+                                <div class="fci-chart-container">
+                                    <canvas id="fci-anxietyChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="fci-metric-card">
+                            <div class="fci-metric-header">
+                                <h3 class="fci-metric-title">Hope vs. Despair Ratio</h3>
+                                <p class="fci-metric-description">Ratio of optimistic to pessimistic financial discussions</p>
+                            </div>
+                            <div class="fci-metric-content">
+                                <div class="fci-chart-container">
+                                    <canvas id="fci-hopeDespairChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="fci-cta">
+                    <a href="http://www.infegy.com/demo" class="fci-cta-link">
+                        <span class="fci-cta-text">Discover deeper financial sentiment analysis with Infegy</span>
+                    </a>
+                </div>
+
+                <section id="labor-market" class="fci-section">
+                    <h2 class="fci-section-header">👔 Labor Market Pulse</h2>
+                    <p class="fci-section-description">Tracking employment-related discussions, from layoff concerns to job market optimism.</p>
+                    
+                    <div class="fci-metric-stats">
+                        <div class="fci-stat-box">
+                            <div class="fci-stat-value" id="layoff-net-sentiment">--%</div>
+                            <div class="fci-stat-label">Net Sentiment</div>
+                        </div>
+                        <div class="fci-stat-box">
+                            <div class="fci-stat-value" id="layoff-short-term">--%</div>
+                            <div class="fci-stat-label">7-Day Growth</div>
+                        </div>
+                        <div class="fci-stat-box">
+                            <div class="fci-stat-value" id="layoff-long-term">--%</div>
+                            <div class="fci-stat-label">30-Day Growth</div>
+                        </div>
+                        <div class="fci-stat-box">
+                            <div class="fci-stat-value" id="layoff-direction">--</div>
+                            <div class="fci-stat-label">Trend</div>
+                        </div>
+                    </div>
+                    
+                    <div class="fci-metrics-grid">
+                        <div class="fci-metric-card">
+                            <div class="fci-metric-header">
+                                <h3 class="fci-metric-title">Layoff Mentions</h3>
+                                <p class="fci-metric-description">Percentage of conversations discussing layoffs and job losses</p>
+                            </div>
+                            <div class="fci-metric-content">
+                                <div class="fci-chart-container">
+                                    <canvas id="fci-layoffChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="fci-cta">
+                    <a href="http://www.infegy.com/demo" class="fci-cta-link">
+                        <span class="fci-cta-text">Unlock comprehensive labor market insights with Infegy</span>
+                    </a>
+                </div>
+
+                <section id="consumer-sentiment" class="fci-section">
+                    <h2 class="fci-section-header">🛍️ Consumer Behavior</h2>
+                    <p class="fci-section-description">Insights into consumer confidence and spending patterns based on social media discussions.</p>
+                    
+                    <div class="fci-metric-stats">
+                        <div class="fci-stat-box">
+                            <div class="fci-stat-value" id="consumer-net-sentiment">--%</div>
+                            <div class="fci-stat-label">Net Sentiment</div>
+                        </div>
+                        <div class="fci-stat-box">
+                            <div class="fci-stat-value" id="consumer-short-term">--%</div>
+                            <div class="fci-stat-label">7-Day Growth</div>
+                        </div>
+                        <div class="fci-stat-box">
+                            <div class="fci-stat-value" id="consumer-long-term">--%</div>
+                            <div class="fci-stat-label">30-Day Growth</div>
+                        </div>
+                        <div class="fci-stat-box">
+                            <div class="fci-stat-value" id="consumer-direction">--</div>
+                            <div class="fci-stat-label">Trend</div>
+                        </div>
+                    </div>
+                    
+                    <div class="fci-metrics-grid">
+                        <div class="fci-metric-card">
+                            <div class="fci-metric-header">
+                                <h3 class="fci-metric-title">Consumer Behavior Index</h3>
+                                <p class="fci-metric-description">Measure of consumer confidence and spending intentions</p>
+                            </div>
+                            <div class="fci-metric-content">
+                                <div class="fci-chart-container">
+                                    <canvas id="fci-consumerChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="fci-cta">
+                    <a href="http://www.infegy.com/demo" class="fci-cta-link">
+                        <span class="fci-cta-text">Experience advanced consumer sentiment analysis with Infegy</span>
+                    </a>
+                </div>
+
+                <section id="methodology" class="fci-section">
+                    <h2 class="fci-section-header">Methodology</h2>
+                    <p class="fci-section-description">
+                        The Fear-Cheer Index is calculated using advanced sentiment analysis of social media and news data. Our methodology combines multiple metrics to provide a comprehensive view of economic sentiment.
+                    </p>
+                    <div class="fci-methodology-grid">
+                        <div class="fci-methodology-card">
+                            <div class="fci-methodology-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <h3>Data Collection</h3>
+                            <p>We analyze millions of social media posts and news articles daily, focusing on economic and financial discussions. Our data sources include major social media platforms, news outlets, and financial forums.</p>
+                        </div>
+                        <div class="fci-methodology-card">
+                            <div class="fci-methodology-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h3>Sentiment Analysis</h3>
+                            <p>Using natural language processing, we classify each mention as positive, negative, or neutral. The analysis considers context, tone, and economic implications of the content.</p>
+                        </div>
+                        <div class="fci-methodology-card">
+                            <div class="fci-methodology-icon">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <h3>Metric Calculation</h3>
+                            <p>Each metric is calculated using weighted sentiment scores, normalized against total volume. This ensures consistent measurement across different time periods and topics.</p>
+                        </div>
+                        <div class="fci-methodology-card">
+                            <div class="fci-methodology-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3>Index Composition</h3>
+                            <p>The Fear-Cheer Index combines multiple sentiment indicators, each weighted based on their historical correlation with economic outcomes and market movements.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script>
+        // Chart.js global configuration
+        Chart.defaults.font.family = 'Roboto';
+        Chart.defaults.color = '#223354';
+        Chart.defaults.borderColor = 'rgba(0, 0, 0, 0.1)';
+
+        // Common options for all charts
+        const commonOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(34, 42, 84, 0.9)',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    padding: 12,
+                    displayColors: false,
+                    intersect: false,
+                    mode: 'index',
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.dataset.label}: ${context.parsed.y.toFixed(3)}`;
+                        }
+                    }
+                }
+            },
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        maxTicksLimit: 8,
+                        autoSkip: true
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Value'
+                    }
+                }
+            }
+        };
+
+        // Store chart instances
+        const chartInstances = {};
+
+        // Create ESI Chart
+        function createESIChart(data) {
+            const ctx = document.getElementById('fci-esiChart').getContext('2d');
+            const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+            gradient.addColorStop(0, 'rgba(34, 170, 255, 0.3)');
+            gradient.addColorStop(1, 'rgba(34, 170, 255, 0)');
+            
+            const options = {
+                ...commonOptions,
+                scales: {
+                    ...commonOptions.scales,
+                    y: {
+                        ...commonOptions.scales.y,
+                        title: {
+                            display: true,
+                            text: 'Percentage'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            };
+            
+            if (chartInstances.esi) {
+                chartInstances.esi.destroy();
+            }
+            chartInstances.esi = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.metrics.esi.labels,
+                    datasets: [{
+                        label: 'Economic Sentiment Index',
+                        data: data.metrics.esi.trend,
+                        borderColor: '#22aaff',
+                        backgroundColor: gradient,
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 0
+                    }]
+                },
+                options: options
+            });
+        }
+
+        // Create Anxiety Chart
+        function createAnxietyChart(data) {
+            const ctx = document.getElementById('fci-anxietyChart').getContext('2d');
+            const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+            gradient.addColorStop(0, 'rgba(255, 51, 102, 0.3)');
+            gradient.addColorStop(1, 'rgba(255, 51, 102, 0)');
+            
+            const options = {
+                ...commonOptions,
+                scales: {
+                    ...commonOptions.scales,
+                    y: {
+                        ...commonOptions.scales.y,
+                        title: {
+                            display: true,
+                            text: 'Percentage'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            };
+            
+            if (chartInstances.anxiety) {
+                chartInstances.anxiety.destroy();
+            }
+            chartInstances.anxiety = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.metrics.financialAnxiety.labels,
+                    datasets: [{
+                        label: 'Financial Anxiety Score',
+                        data: data.metrics.financialAnxiety.trend,
+                        borderColor: '#ff3366',
+                        backgroundColor: gradient,
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 0
+                    }]
+                },
+                options: options
+            });
+        }
+
+        // Create Hope vs Despair Chart
+        function createHopeDespairChart(data) {
+            const ctx = document.getElementById('fci-hopeDespairChart').getContext('2d');
+            const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+            gradient.addColorStop(0, 'rgba(136, 221, 17, 0.3)');
+            gradient.addColorStop(1, 'rgba(136, 221, 17, 0)');
+            
+            const options = {
+                ...commonOptions,
+                scales: {
+                    ...commonOptions.scales,
+                    y: {
+                        ...commonOptions.scales.y,
+                        title: {
+                            display: true,
+                            text: 'Ratio'
+                        }
+                    }
+                }
+            };
+            
+            if (chartInstances.hopeDespair) {
+                chartInstances.hopeDespair.destroy();
+            }
+            chartInstances.hopeDespair = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.metrics.hopeDespairRatio.labels,
+                    datasets: [{
+                        label: 'Hope vs Despair Ratio',
+                        data: data.metrics.hopeDespairRatio.trend,
+                        borderColor: '#88dd11',
+                        backgroundColor: gradient,
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 0
+                    }]
+                },
+                options: options
+            });
+        }
+
+        // Create Layoff Chart
+        function createLayoffChart(data) {
+            const ctx = document.getElementById('fci-layoffChart').getContext('2d');
+            const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+            gradient.addColorStop(0, 'rgba(238, 68, 238, 0.3)');
+            gradient.addColorStop(1, 'rgba(238, 68, 238, 0)');
+            
+            const options = {
+                ...commonOptions,
+                scales: {
+                    ...commonOptions.scales,
+                    y: {
+                        ...commonOptions.scales.y,
+                        title: {
+                            display: true,
+                            text: 'Percentage'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            };
+            
+            if (chartInstances.layoff) {
+                chartInstances.layoff.destroy();
+            }
+            chartInstances.layoff = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.metrics.layoffMentions.labels,
+                    datasets: [{
+                        label: 'Layoff Mentions',
+                        data: data.metrics.layoffMentions.trend,
+                        borderColor: '#ee44ee',
+                        backgroundColor: gradient,
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 0
+                    }]
+                },
+                options: options
+            });
+        }
+
+        // Create Consumer Chart
+        function createConsumerChart(data) {
+            const ctx = document.getElementById('fci-consumerChart').getContext('2d');
+            const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+            gradient.addColorStop(0, 'rgba(170, 119, 255, 0.3)');
+            gradient.addColorStop(1, 'rgba(170, 119, 255, 0)');
+            
+            const options = {
+                ...commonOptions,
+                scales: {
+                    ...commonOptions.scales,
+                    y: {
+                        ...commonOptions.scales.y,
+                        title: {
+                            display: true,
+                            text: 'Percentage'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            };
+            
+            if (chartInstances.consumer) {
+                chartInstances.consumer.destroy();
+            }
+            chartInstances.consumer = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.metrics.consumerBehavior.labels,
+                    datasets: [{
+                        label: 'Consumer Behavior',
+                        data: data.metrics.consumerBehavior.trend,
+                        borderColor: '#aa77ff',
+                        backgroundColor: gradient,
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 0
+                    }]
+                },
+                options: options
+            });
+        }
+
+        // Load and display data
+        function loadData() {
+            fetch('https://www.infegy.com/hubfs/Fear%20Cheer%20Index/data.json')
+                .then(response => response.json())
+                .then(data => {
+                    // Format the date to be more readable
+                    const date = new Date(data.lastUpdated);
+                    const formattedDate = date.toLocaleString('en-US', {
+                        month: 'long',
+                        day: 'numeric',
+                        year: 'numeric',
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        hour12: true
+                    });
+                    document.getElementById('lastUpdated').textContent = formattedDate;
+                    
+                    // Get the first and last dates from the labels
+                    const labels = data.metrics.esi.labels;
+                    const startDate = labels[labels.length - 1];
+                    const endDate = labels[0];
+                    
+                    // Add the current year to the dates
+                    const currentYear = new Date().getFullYear();
+                    document.getElementById('datasetStart').textContent = `${startDate}, ${currentYear}`;
+                    document.getElementById('datasetEnd').textContent = `${endDate}, ${currentYear}`;
+                    
+                    // Create all charts
+                    createESIChart(data);
+                    createAnxietyChart(data);
+                    createHopeDespairChart(data);
+                    createLayoffChart(data);
+                    createConsumerChart(data);
+
+                    // Update metric stats
+                    updateMetricStats('esi', data.metrics.esi);
+                    updateMetricStats('anxiety', data.metrics.financialAnxiety);
+                    updateMetricStats('hopeDespair', data.metrics.hopeDespairRatio);
+                    updateMetricStats('layoff', data.metrics.layoffMentions);
+                    updateMetricStats('consumer', data.metrics.consumerBehavior);
+                })
+                .catch(error => console.error('Error loading data:', error));
+        }
+
+        // Handle smooth scrolling with offset
+        document.querySelectorAll('.fci-nav-link').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const offset = 20;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - offset;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        function updateMetricStats(metricId, data) {
+            const netSentiment = document.getElementById(`${metricId}-net-sentiment`);
+            const shortTerm = document.getElementById(`${metricId}-short-term`);
+            const longTerm = document.getElementById(`${metricId}-long-term`);
+            const direction = document.getElementById(`${metricId}-direction`);
+
+            if (netSentiment && data.net_sentiment !== undefined) {
+                netSentiment.textContent = `${data.net_sentiment}%`;
+            }
+
+            if (shortTerm && longTerm && direction && data.growth) {
+                shortTerm.textContent = `${data.growth.short_term}%`;
+                longTerm.textContent = `${data.growth.long_term}%`;
+                
+                const directionMap = {
+                    'up': '↑',
+                    'down': '↓',
+                    'neutral': '→'
+                };
+                direction.textContent = directionMap[data.growth.direction] || '--';
+                
+                direction.className = 'fci-stat-value';
+                if (data.growth.direction === 'up') {
+                    direction.classList.add('fci-trend-up');
+                } else if (data.growth.direction === 'down') {
+                    direction.classList.add('fci-trend-down');
+                }
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html> 
