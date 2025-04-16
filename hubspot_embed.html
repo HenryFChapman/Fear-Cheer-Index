@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infegy's Fear & Cheer Index</title>
+    <title>Infegy's Fear + Cheer Index</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -50,21 +50,23 @@
             border-bottom: 1px solid rgba(34, 51, 84, 0.1);
             margin-bottom: 2rem;
             border-radius: 12px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
         .fci-nav-content {
-            max-width: 1600px;
+            max-width: 1400px;
             margin: 0 auto;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
         }
 
         .fci-nav-title {
             color: var(--fci-dark);
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: 600;
             margin: 0;
             white-space: nowrap;
@@ -72,9 +74,9 @@
 
         .fci-nav-links {
             display: flex;
-            gap: 1.5rem;
+            gap: 2rem;
             flex-wrap: wrap;
-            justify-content: flex-end;
+            justify-content: center;
         }
 
         .fci-nav-link {
@@ -82,13 +84,28 @@
             text-decoration: none;
             font-weight: 500;
             opacity: 0.8;
-            transition: opacity 0.2s ease;
+            transition: all 0.2s ease;
             white-space: nowrap;
-            font-size: 0.95rem;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            position: relative;
         }
 
         .fci-nav-link:hover {
             opacity: 1;
+            background: var(--fci-light-1);
+            transform: translateY(-1px);
+        }
+
+        .fci-nav-link.active {
+            opacity: 1;
+            color: var(--fci-primary);
+            font-weight: 600;
+        }
+
+        .fci-nav-link.active::after {
+            display: none;
         }
 
         .fci-main-content {
@@ -105,7 +122,7 @@
         }
 
         .fci-header-content {
-            max-width: 1000px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 1.5rem 0;
         }
@@ -133,21 +150,29 @@
 
         .fci-subtitle {
             color: var(--fci-primary-dark);
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             font-weight: 400;
             line-height: 1.6;
-            max-width: 600px;
+            max-width: 1200px;
             margin-top: 1.5rem;
         }
 
-        .fci-last-updated {
+        .fci-data-info {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .fci-last-updated,
+        .fci-dataset-duration {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
             background: transparent;
             padding: 0.75rem 0;
-            margin-top: 1rem;
-            font-size: 0.9rem;
+            margin: 0;
+            font-size: 1.1rem;
         }
 
         .fci-last-updated-label {
@@ -159,17 +184,6 @@
         .fci-last-updated-time {
             color: var(--fci-dark);
             font-weight: 500;
-        }
-
-        .fci-dataset-duration {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: transparent;
-            padding: 0.75rem 0;
-            margin: 0;
-            font-size: 0.9rem;
-            margin-left: 1rem;
         }
 
         .fci-dataset-label {
@@ -185,13 +199,12 @@
         }
 
         .fci-dataset-separator {
-            color: var(--fci-primary-dark);
-            font-weight: 400;
-            opacity: 0.8;
+            color: var(--fci-dark);
+            font-weight: 500;
         }
 
         .fci-content-wrapper {
-            max-width: 1000px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0;
             position: relative;
@@ -200,7 +213,7 @@
         .fci-section {
             margin-bottom: 2rem;
             padding: 0.5rem 0;
-            scroll-margin-top: 20px;
+            scroll-margin-top: 100px;
         }
 
         .fci-section-header {
@@ -214,10 +227,9 @@
 
         .fci-section-description {
             color: var(--fci-primary-dark);
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             margin-bottom: 1rem;
             line-height: 1.8;
-            max-width: 800px;
         }
 
         .fci-metric-stats {
@@ -383,16 +395,8 @@
         }
 
         @media (max-width: 1200px) {
-            .fci-nav-content {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
             .fci-nav-links {
-                width: 100%;
-                justify-content: flex-start;
-                overflow-x: auto;
-                padding-bottom: 0.5rem;
+                gap: 1.5rem;
             }
         }
 
@@ -405,16 +409,16 @@
                 padding: 1rem;
             }
             
-            .fci-nav-title {
-                font-size: 1.25rem;
-            }
-            
             .fci-nav-links {
                 gap: 1rem;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+                justify-content: flex-start;
             }
             
             .fci-nav-link {
                 font-size: 0.9rem;
+                padding: 0.4rem 0.8rem;
             }
             
             .fci-title {
@@ -443,39 +447,51 @@
                 flex-direction: column;
             }
         }
+
+        .fci-introduction {
+            margin-bottom: 2rem;
+            padding: 0.5rem 0;
+            scroll-margin-top: 20px;
+        }
+
+        .fci-intro-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body>
     <div class="fci-container">
-        <nav class="fci-nav">
-            <div class="fci-nav-content">
-                <h1 class="fci-nav-title">Fear-Cheer Index</h1>
-                <div class="fci-nav-links">
-                    <a href="#overall-sentiment" class="fci-nav-link">Overall Economic Sentiment</a>
-                    <a href="#financial-health" class="fci-nav-link">Financial Health Indicators</a>
-                    <a href="#labor-market" class="fci-nav-link">Labor Market Pulse</a>
-                    <a href="#consumer-sentiment" class="fci-nav-link">Consumer Behavior</a>
-                    <a href="#methodology" class="fci-nav-link">Methodology</a>
-                </div>
-            </div>
-        </nav>
         <main class="fci-main-content">
             <header class="fci-header">
                 <div class="fci-header-content">
-                    <h1 class="fci-title">Infegy's Fear & Cheer Index</h1>
-                    <p class="fci-subtitle">Real-time social listening insights tracking economic sentiment across multiple indicators and platforms.</p>
-                    <div class="fci-last-updated">
-                        <span class="fci-last-updated-label">Data Last Updated:</span>
-                        <span class="fci-last-updated-time" id="lastUpdated"></span>
-                    </div>
-                    <div class="fci-dataset-duration">
-                        <span class="fci-dataset-label">Dataset Range:</span>
-                        <span class="fci-dataset-start" id="datasetStart"></span>
-                        <span class="fci-dataset-separator">to</span>
-                        <span class="fci-dataset-end" id="datasetEnd"></span>
+                    <h1 class="fci-title">Infegy's Fear + Cheer Index</h1>
+                    <div class="fci-data-info">
+                        <div class="fci-last-updated">
+                            <span class="fci-last-updated-label">Data Last Updated:</span>
+                            <span class="fci-last-updated-time" id="lastUpdated"></span>
+                        </div>
+                        <div class="fci-dataset-duration">
+                            <span class="fci-dataset-label">Dataset Range:</span>
+                            <span class="fci-dataset-start" id="datasetStart"></span>
+                            <span class="fci-dataset-separator">to</span>
+                            <span class="fci-dataset-end" id="datasetEnd"></span>
+                        </div>
                     </div>
                 </div>
             </header>
+
+            <nav class="fci-nav">
+                <div class="fci-nav-content">
+                    <div class="fci-nav-links">
+                        <a href="#overall-sentiment" class="fci-nav-link">Overall Economic Sentiment</a>
+                        <a href="#financial-health" class="fci-nav-link">Financial Health Indicators</a>
+                        <a href="#labor-market" class="fci-nav-link">Labor Market Pulse</a>
+                        <a href="#consumer-sentiment" class="fci-nav-link">Consumer Behavior</a>
+                        <a href="#methodology" class="fci-nav-link">Methodology</a>
+                    </div>
+                </div>
+            </nav>
 
             <div class="fci-content-wrapper">
                 <section id="overall-sentiment" class="fci-section">
@@ -1018,8 +1034,8 @@
                     
                     // Get the first and last dates from the labels
                     const labels = data.metrics.esi.labels;
-                    const startDate = labels[labels.length - 1];
-                    const endDate = labels[0];
+                    const startDate = labels[0];
+                    const endDate = labels[labels.length - 1];
                     
                     // Add the current year to the dates
                     const currentYear = new Date().getFullYear();
@@ -1051,7 +1067,7 @@
                 const targetElement = document.querySelector(targetId);
                 
                 if (targetElement) {
-                    const offset = 20;
+                    const offset = 150;
                     const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - offset;
                     
                     window.scrollTo({
@@ -1094,6 +1110,35 @@
 
         // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', loadData);
+
+        // Add this to your existing JavaScript section
+        function updateActiveNav() {
+            const sections = document.querySelectorAll('.fci-section');
+            const navLinks = document.querySelectorAll('.fci-nav-link');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                const scrollPosition = window.scrollY + 100; // Offset for better detection
+                
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    currentSection = section.id;
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${currentSection}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Add event listeners for scroll and load
+        window.addEventListener('scroll', updateActiveNav);
+        window.addEventListener('load', updateActiveNav);
     </script>
 </body>
 </html> 
