@@ -879,9 +879,6 @@
         // Create Hope vs Despair Chart
         function createHopeDespairChart(data) {
             const ctx = document.getElementById('fci-hopeDespairChart').getContext('2d');
-            const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-            gradient.addColorStop(0, 'rgba(136, 221, 17, 0.3)');
-            gradient.addColorStop(1, 'rgba(136, 221, 17, 0)');
             
             const options = {
                 ...commonOptions,
@@ -893,6 +890,30 @@
                             display: true,
                             text: 'Ratio'
                         }
+                    }
+                },
+                plugins: {
+                    ...commonOptions.plugins,
+                    legend: {
+                        display: false
+                    },
+                    annotation: {
+                        annotations: [
+                            {
+                                type: 'line',
+                                borderColor: '#005588',
+                                borderWidth: 2,
+                                label: {
+                                    backgroundColor: '#005588',
+                                    content: 'Hope vs. Despair',
+                                    display: true,
+                                    position: 'end',
+                                },
+                                mode: 'horizontal',
+                                scaleID: 'y',
+                                value: 1,
+                            }
+                        ]
                     }
                 }
             };
@@ -907,15 +928,70 @@
                     datasets: [{
                         label: 'Hope vs Despair Ratio',
                         data: data.metrics.hopeDespairRatio.trend,
-                        borderColor: '#88dd11',
-                        backgroundColor: gradient,
+                        borderColor: '#005588',
+                        backgroundColor: 'transparent',
                         borderWidth: 2,
                         tension: 0.4,
-                        fill: true,
+                        fill: false,
                         pointRadius: 0
                     }]
                 },
-                options: options
+                options: {
+                    ...options,
+                    plugins: {
+                        ...options.plugins,
+                        annotation: {
+                            annotations: [
+                                {
+                                    type: 'line',
+                                    borderColor: '#005588',
+                                    borderWidth: 2,
+                                    mode: 'horizontal',
+                                    scaleID: 'y',
+                                    value: 1,
+                                },
+                                {
+                                    type: 'box',
+                                    yMin: 1,
+                                    yMax: 'max',
+                                    backgroundColor: 'rgba(136, 221, 17, 0.2)', // Infegy green with transparency
+                                    borderWidth: 0,
+                                    drawTime: 'beforeDatasetsDraw',
+                                    label: {
+                                        content: 'Hope',
+                                        display: true,
+                                        position: 'end',
+                                        backgroundColor: 'rgba(136, 221, 17, 0.2)',
+                                        color: '#88dd11',
+                                        font: {
+                                            size: 12,
+                                            weight: 'bold'
+                                        }
+                                    }
+                                },
+                                {
+                                    type: 'box',
+                                    yMin: 'min',
+                                    yMax: 1,
+                                    backgroundColor: 'rgba(255, 51, 102, 0.2)', // Infegy red with transparency
+                                    borderWidth: 0,
+                                    drawTime: 'beforeDatasetsDraw',
+                                    label: {
+                                        content: 'Despair',
+                                        display: true,
+                                        position: 'end',
+                                        backgroundColor: 'rgba(255, 51, 102, 0.2)',
+                                        color: '#ff3366',
+                                        font: {
+                                            size: 12,
+                                            weight: 'bold'
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
             });
         }
 
@@ -1017,7 +1093,7 @@
 
         // Load and display data
         function loadData() {
-            fetch('https://www.infegy.com/hubfs/Fear%20Cheer%20Index/data.json')
+            fetch('data.json')
                 .then(response => response.json())
                 .then(data => {
                     // Format the date to be more readable
