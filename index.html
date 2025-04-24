@@ -74,9 +74,10 @@
 
         .fci-nav-links {
             display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
+            gap: 1.5rem;
+            flex-wrap: nowrap;
             justify-content: center;
+            align-items: center;
         }
 
         .fci-nav-link {
@@ -86,8 +87,8 @@
             opacity: 0.8;
             transition: all 0.2s ease;
             white-space: nowrap;
-            font-size: 1rem;
-            padding: 0.5rem 1rem;
+            font-size: 0.95rem;
+            padding: 0.4rem 0.8rem;
             border-radius: 6px;
             position: relative;
         }
@@ -413,7 +414,12 @@
 
         @media (max-width: 1200px) {
             .fci-nav-links {
-                gap: 1.5rem;
+                gap: 1rem;
+            }
+
+            .fci-nav-link {
+                font-size: 0.9rem;
+                padding: 0.35rem 0.7rem;
             }
         }
 
@@ -781,19 +787,19 @@
                     <div class="fci-metric-stats">
                         <div class="fci-stat-box">
                             <div class="fci-stat-value" id="esi-net-sentiment">--%</div>
-                            <div class="fci-stat-label">Net Sentiment</div>
+                            <div class="fci-stat-label">Economic Share of Voice Sentiment</div>
                         </div>
                         <div class="fci-stat-box">
                             <div class="fci-stat-value" id="esi-short-term">--%</div>
-                            <div class="fci-stat-label">7-Day Growth</div>
+                            <div class="fci-stat-label">Economic Share of Voice (7-Day)</div>
                         </div>
                         <div class="fci-stat-box">
                             <div class="fci-stat-value" id="esi-long-term">--%</div>
-                            <div class="fci-stat-label">30-Day Growth</div>
+                            <div class="fci-stat-label">Economic Share of Voice (30-Day)</div>
                         </div>
                         <div class="fci-stat-box">
                             <div class="fci-stat-value" id="esi-direction">--</div>
-                            <div class="fci-stat-label">Trend</div>
+                            <div class="fci-stat-label">Economic Share of Voice (7-Day Direction)</div>
                         </div>
                     </div>
                     
@@ -814,7 +820,7 @@
 
                 <div class="fci-cta">
                     <a href="http://www.infegy.com/demo" class="fci-cta-link">
-                        <span class="fci-cta-text">See how Infegy's social listening platform can transform your economic insights</span>
+                        <span class="fci-cta-text">See how Infegy Starscape can transform your economic insights</span>
                     </a>
                 </div>
 
@@ -827,19 +833,19 @@
                     <div class="fci-metric-stats">
                         <div class="fci-stat-box">
                             <div class="fci-stat-value" id="anxiety-net-sentiment">--%</div>
-                            <div class="fci-stat-label">Net Sentiment</div>
+                            <div class="fci-stat-label">Financial Anxiety Sentiment</div>
                         </div>
                         <div class="fci-stat-box">
                             <div class="fci-stat-value" id="anxiety-short-term">--%</div>
-                            <div class="fci-stat-label">7-Day Growth</div>
+                            <div class="fci-stat-label">Financial Anxiety (7-Day)</div>
                         </div>
                         <div class="fci-stat-box">
                             <div class="fci-stat-value" id="anxiety-long-term">--%</div>
-                            <div class="fci-stat-label">30-Day Growth</div>
+                            <div class="fci-stat-label">Financial Anxiety (30-Day)</div>
                         </div>
                         <div class="fci-stat-box">
                             <div class="fci-stat-value" id="anxiety-direction">--</div>
-                            <div class="fci-stat-label">Trend</div>
+                            <div class="fci-stat-label">Financial Anxiety (7-Day Direction)</div>
                         </div>
                     </div>
                     
@@ -860,7 +866,7 @@
 
                 <div class="fci-cta">
                     <a href="http://www.infegy.com/demo" class="fci-cta-link">
-                        <span class="fci-cta-text">Discover how Infegy's social listening can help you track financial sentiment</span>
+                        <span class="fci-cta-text">Discover how Infegy Starscape can help you understand consumers' anxieties</span>
                     </a>
                 </div>
 
@@ -873,19 +879,19 @@
                     <div class="fci-metric-stats">
                         <div class="fci-stat-box">
                             <div class="fci-stat-value" id="hopeDespair-net-sentiment">--%</div>
-                            <div class="fci-stat-label">Net Sentiment</div>
+                            <div class="fci-stat-label">Hope vs. Despair Sentiment</div>
                         </div>
                         <div class="fci-stat-box">
                             <div class="fci-stat-value" id="hopeDespair-short-term">--%</div>
-                            <div class="fci-stat-label">7-Day Growth</div>
+                            <div class="fci-stat-label">Hope vs. Despair (7-Day)</div>
                         </div>
                         <div class="fci-stat-box">
                             <div class="fci-stat-value" id="hopeDespair-long-term">--%</div>
-                            <div class="fci-stat-label">30-Day Growth</div>
+                            <div class="fci-stat-label">Hope vs. Despair (30-Day)</div>
                         </div>
                         <div class="fci-stat-box">
                             <div class="fci-stat-value" id="hopeDespair-direction">--</div>
-                            <div class="fci-stat-label">Trend</div>
+                            <div class="fci-stat-label">Hope vs. Despair (7-Day Direction)</div>
                         </div>
                     </div>
                     
@@ -906,7 +912,7 @@
 
                 <div class="fci-cta">
                     <a href="http://www.infegy.com/demo" class="fci-cta-link">
-                        <span class="fci-cta-text">Discover deeper financial sentiment analysis with Infegy</span>
+                        <span class="fci-cta-text">Understand deep consumer emotions with Infegy Starscape</span>
                     </a>
                 </div>
 
@@ -919,19 +925,19 @@
                     <div class="fci-metric-stats">
                         <div class="fci-stat-box">
                             <div class="fci-stat-value" id="layoff-net-sentiment">--%</div>
-                            <div class="fci-stat-label">Net Sentiment</div>
+                            <div class="fci-stat-label">Labor Market Sentiment</div>
                         </div>
                         <div class="fci-stat-box">
                             <div class="fci-stat-value" id="layoff-short-term">--%</div>
-                            <div class="fci-stat-label">7-Day Growth</div>
+                            <div class="fci-stat-label">Labor Market (7-Day)</div>
                         </div>
                         <div class="fci-stat-box">
                             <div class="fci-stat-value" id="layoff-long-term">--%</div>
-                            <div class="fci-stat-label">30-Day Growth</div>
+                            <div class="fci-stat-label">Labor Market (30-Day)</div>
                         </div>
                         <div class="fci-stat-box">
                             <div class="fci-stat-value" id="layoff-direction">--</div>
-                            <div class="fci-stat-label">Trend</div>
+                            <div class="fci-stat-label">Labor Market (7-Day Direction)</div>
                         </div>
                     </div>
                     
@@ -952,7 +958,7 @@
 
                 <div class="fci-cta">
                     <a href="http://www.infegy.com/demo" class="fci-cta-link">
-                        <span class="fci-cta-text">Unlock comprehensive labor market insights with Infegy</span>
+                        <span class="fci-cta-text">Unlock comprehensive labor market insights with Infegy Starscape</span>
                     </a>
                 </div>
 
@@ -965,19 +971,19 @@
                     <div class="fci-metric-stats">
                         <div class="fci-stat-box">
                             <div class="fci-stat-value" id="consumer-net-sentiment">--%</div>
-                            <div class="fci-stat-label">Net Sentiment</div>
+                            <div class="fci-stat-label">Consumer Behavior Sentiment</div>
                         </div>
                         <div class="fci-stat-box">
                             <div class="fci-stat-value" id="consumer-short-term">--%</div>
-                            <div class="fci-stat-label">7-Day Growth</div>
+                            <div class="fci-stat-label">Consumer Behavior (7-Day)</div>
                         </div>
                         <div class="fci-stat-box">
                             <div class="fci-stat-value" id="consumer-long-term">--%</div>
-                            <div class="fci-stat-label">30-Day Growth</div>
+                            <div class="fci-stat-label">Consumer Behavior (30-Day)</div>
                         </div>
                         <div class="fci-stat-box">
                             <div class="fci-stat-value" id="consumer-direction">--</div>
-                            <div class="fci-stat-label">Trend</div>
+                            <div class="fci-stat-label">Consumer Behavior (7-Day Direction)</div>
                         </div>
                     </div>
                     
@@ -998,7 +1004,7 @@
 
                 <div class="fci-cta">
                     <a href="http://www.infegy.com/demo" class="fci-cta-link">
-                        <span class="fci-cta-text">Experience advanced consumer sentiment analysis with Infegy</span>
+                        <span class="fci-cta-text">Discover why consumers make buying decisions with Infegy Starscape</span>
                     </a>
                 </div>
 
@@ -1038,12 +1044,6 @@
                         </div>
                     </div>
                 </section>
-
-                <div class="fci-cta">
-                    <a href="http://www.infegy.com/demo" class="fci-cta-link">
-                        <span class="fci-cta-text">See how Infegy's social listening platform can transform your economic insights</span>
-                    </a>
-                </div>
             </div>
         </main>
     </div>
@@ -1419,7 +1419,7 @@
 
         // Load and display data
         function loadData() {
-            fetch('data.json')
+            fetch('https://www.infegy.com/hubfs/Fear%20Cheer%20Index/data.json')
                 .then(response => response.json())
                 .then(data => {
                     // Format the date to be more readable
