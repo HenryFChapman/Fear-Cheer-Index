@@ -4,6 +4,8 @@ from datetime import datetime, timedelta, UTC
 import os
 import statistics
 
+from hubspot_api_request import hubspot_api_request
+
 # API Configuration
 API_URL = "https://starscape.infegy.com/api/query/agg/"
 
@@ -317,6 +319,8 @@ def update_data_file(metric_data):
             })
         
         data['lastUpdated'] = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+        hubspot_api_request(data)
         
         with open('data.json', 'w') as f:
             json.dump(data, f, indent=4)
