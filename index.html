@@ -1108,6 +1108,24 @@
             }
         };
 
+        // Function to calculate trend line
+        function calculateTrendLine(data) {
+            const n = data.length;
+            let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+            
+            for (let i = 0; i < n; i++) {
+                sumX += i;
+                sumY += data[i];
+                sumXY += i * data[i];
+                sumX2 += i * i;
+            }
+            
+            const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+            const intercept = (sumY - slope * sumX) / n;
+            
+            return data.map((_, i) => slope * i + intercept);
+        }
+
         // Store chart instances
         const chartInstances = {};
 
@@ -1117,6 +1135,8 @@
             const gradient = ctx.createLinearGradient(0, 0, 0, 300);
             gradient.addColorStop(0, 'rgba(34, 170, 255, 0.3)');
             gradient.addColorStop(1, 'rgba(34, 170, 255, 0)');
+            
+            const trendLine = calculateTrendLine(data.metrics.esi.trend);
             
             const options = {
                 ...commonOptions,
@@ -1153,6 +1173,16 @@
                         tension: 0.4,
                         fill: true,
                         pointRadius: 0
+                    },
+                    {
+                        label: 'Trend Line',
+                        data: trendLine,
+                        borderColor: '#005588',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        tension: 0,
+                        pointRadius: 0,
+                        fill: false
                     }]
                 },
                 options: options
@@ -1165,6 +1195,8 @@
             const gradient = ctx.createLinearGradient(0, 0, 0, 300);
             gradient.addColorStop(0, 'rgba(255, 51, 102, 0.3)');
             gradient.addColorStop(1, 'rgba(255, 51, 102, 0)');
+            
+            const trendLine = calculateTrendLine(data.metrics.financialAnxiety.trend);
             
             const options = {
                 ...commonOptions,
@@ -1201,6 +1233,16 @@
                         tension: 0.4,
                         fill: true,
                         pointRadius: 0
+                    },
+                    {
+                        label: 'Trend Line',
+                        data: trendLine,
+                        borderColor: '#ff3366',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        tension: 0,
+                        pointRadius: 0,
+                        fill: false
                     }]
                 },
                 options: options
@@ -1210,6 +1252,7 @@
         // Create Hope vs Despair Chart
         function createHopeDespairChart(data) {
             const ctx = document.getElementById('fci-hopeDespairChart').getContext('2d');
+            const trendLine = calculateTrendLine(data.metrics.hopeDespairRatio.trend);
             
             const options = {
                 ...commonOptions,
@@ -1265,6 +1308,16 @@
                         tension: 0.4,
                         fill: false,
                         pointRadius: 0
+                    },
+                    {
+                        label: 'Trend Line',
+                        data: trendLine,
+                        borderColor: '#005588',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        tension: 0,
+                        pointRadius: 0,
+                        fill: false
                     }]
                 },
                 options: {
@@ -1285,7 +1338,7 @@
                                     type: 'box',
                                     yMin: 1,
                                     yMax: 'max',
-                                    backgroundColor: 'rgba(136, 221, 17, 0.2)', // Infegy green with transparency
+                                    backgroundColor: 'rgba(136, 221, 17, 0.2)',
                                     borderWidth: 0,
                                     drawTime: 'beforeDatasetsDraw',
                                     label: {
@@ -1304,7 +1357,7 @@
                                     type: 'box',
                                     yMin: 'min',
                                     yMax: 1,
-                                    backgroundColor: 'rgba(255, 51, 102, 0.2)', // Infegy red with transparency
+                                    backgroundColor: 'rgba(255, 51, 102, 0.2)',
                                     borderWidth: 0,
                                     drawTime: 'beforeDatasetsDraw',
                                     label: {
@@ -1332,6 +1385,8 @@
             const gradient = ctx.createLinearGradient(0, 0, 0, 300);
             gradient.addColorStop(0, 'rgba(238, 68, 238, 0.3)');
             gradient.addColorStop(1, 'rgba(238, 68, 238, 0)');
+            
+            const trendLine = calculateTrendLine(data.metrics.layoffMentions.trend);
             
             const options = {
                 ...commonOptions,
@@ -1368,6 +1423,16 @@
                         tension: 0.4,
                         fill: true,
                         pointRadius: 0
+                    },
+                    {
+                        label: 'Trend Line',
+                        data: trendLine,
+                        borderColor: '#ee44ee',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        tension: 0,
+                        pointRadius: 0,
+                        fill: false
                     }]
                 },
                 options: options
@@ -1380,6 +1445,8 @@
             const gradient = ctx.createLinearGradient(0, 0, 0, 300);
             gradient.addColorStop(0, 'rgba(170, 119, 255, 0.3)');
             gradient.addColorStop(1, 'rgba(170, 119, 255, 0)');
+            
+            const trendLine = calculateTrendLine(data.metrics.consumerBehavior.trend);
             
             const options = {
                 ...commonOptions,
@@ -1416,6 +1483,16 @@
                         tension: 0.4,
                         fill: true,
                         pointRadius: 0
+                    },
+                    {
+                        label: 'Trend Line',
+                        data: trendLine,
+                        borderColor: '#aa77ff',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        tension: 0,
+                        pointRadius: 0,
+                        fill: false
                     }]
                 },
                 options: options

@@ -23,6 +23,7 @@ Fear-Cheer-Index/
 ├── styles.css          # Custom styling and theme
 ├── data.json           # Data storage
 ├── update_data.py      # Data collection and processing script
+├── hubspot_api_request.py  # HubSpot API integration for file updates
 └── api_token.txt       # API credentials (not tracked in git)
 ```
 
@@ -36,6 +37,7 @@ Fear-Cheer-Index/
 - **Backend**:
   - Python 3.x
   - Various data APIs for economic indicators
+  - HubSpot API for file management
 
 ## Setup and Installation
 
@@ -55,6 +57,7 @@ Fear-Cheer-Index/
 3. Configure API credentials:
    - Create an `api_token.txt` file in the root directory
    - Add your API token (not tracked in git)
+   - Create a `hubspot_key.txt` file with your HubSpot API key
 
 4. Run the data update script:
    ```bash
@@ -79,6 +82,12 @@ The `update_data.py` script:
 - Calculates growth metrics and trends
 - Updates the `data.json` file
 - Can be scheduled to run automatically
+
+The `hubspot_api_request.py` script:
+- Manages file updates through the HubSpot API
+- Replaces existing files with updated data
+- Handles file access permissions and TTL settings
+- Provides error handling for API requests
 
 ## Contributing
 
