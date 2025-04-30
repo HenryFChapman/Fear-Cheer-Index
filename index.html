@@ -720,9 +720,9 @@
                     </button>
                     <div class="fci-nav-links">
                         <a href="#introduction" class="fci-nav-link">Introduction</a>
+                        <a href="#hope-despair" class="fci-nav-link">Hope vs. Despair</a>
                         <a href="#overall-sentiment" class="fci-nav-link">Economic Share of Voice</a>
                         <a href="#financial-anxiety" class="fci-nav-link">Financial Anxiety</a>
-                        <a href="#hope-despair" class="fci-nav-link">Hope vs. Despair</a>
                         <a href="#labor-market" class="fci-nav-link">Labor Market</a>
                         <a href="#consumer-sentiment" class="fci-nav-link">Consumer Behavior</a>
                         <a href="#methodology" class="fci-nav-link">Methodology</a>
@@ -769,6 +769,46 @@
                             <p>Social listening provides immediate, unfiltered insights from consumers, investors, and businesses. This makes it a powerful tool for spotting economic trends before they appear in traditional metrics.</p>
                         </div>
                     </div>
+                </section>
+
+                <section id="hope-despair" class="fci-section">
+                    <h2 class="fci-section-header">⚖️ Hope vs. Despair Ratio</h2>
+                    
+                    <div class="fci-metric-stats">
+                        <div class="fci-stat-box">
+                            <div class="fci-stat-value" id="hopeDespair-net-sentiment">--%</div>
+                            <div class="fci-stat-label">Hope vs. Despair Sentiment</div>
+                        </div>
+                        <div class="fci-stat-box">
+                            <div class="fci-stat-value" id="hopeDespair-short-term">--%</div>
+                            <div class="fci-stat-label">Hope vs. Despair (7-Day)</div>
+                        </div>
+                        <div class="fci-stat-box">
+                            <div class="fci-stat-value" id="hopeDespair-long-term">--%</div>
+                            <div class="fci-stat-label">Hope vs. Despair (30-Day)</div>
+                        </div>
+                        <div class="fci-stat-box">
+                            <div class="fci-stat-value" id="hopeDespair-direction">--</div>
+                            <div class="fci-stat-label">Hope vs. Despair (7-Day Direction)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="fci-metrics-grid">
+                        <div class="fci-metric-card">
+                            <div class="fci-metric-header">
+                                <h3 class="fci-metric-title">Hope vs. Despair Ratio</h3>
+                                <p class="fci-metric-description">Ratio of optimistic to pessimistic financial discussions</p>
+                            </div>
+                            <div class="fci-metric-content">
+                                <div class="fci-chart-container">
+                                    <canvas id="fci-hopeDespairChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="fci-section-description">
+                        The Hope vs. Despair Ratio measures the balance between optimistic and pessimistic financial discussions. A ratio above 1 indicates more hopeful than despairing conversations, while a ratio below 1 suggests the opposite. This metric helps identify shifts in public sentiment about economic conditions, from personal financial situations to broader market outlook.
+                    </p>
                 </section>
 
                 <section id="overall-sentiment" class="fci-section">
@@ -871,46 +911,6 @@
                         <span class="fci-cta-text">Discover how Infegy Starscape can help you understand consumers' anxieties</span>
                     </a>
                 </div>
-
-                <section id="hope-despair" class="fci-section">
-                    <h2 class="fci-section-header">⚖️ Hope vs. Despair Ratio</h2>
-                    
-                    <div class="fci-metric-stats">
-                        <div class="fci-stat-box">
-                            <div class="fci-stat-value" id="hopeDespair-net-sentiment">--%</div>
-                            <div class="fci-stat-label">Hope vs. Despair Sentiment</div>
-                        </div>
-                        <div class="fci-stat-box">
-                            <div class="fci-stat-value" id="hopeDespair-short-term">--%</div>
-                            <div class="fci-stat-label">Hope vs. Despair (7-Day)</div>
-                        </div>
-                        <div class="fci-stat-box">
-                            <div class="fci-stat-value" id="hopeDespair-long-term">--%</div>
-                            <div class="fci-stat-label">Hope vs. Despair (30-Day)</div>
-                        </div>
-                        <div class="fci-stat-box">
-                            <div class="fci-stat-value" id="hopeDespair-direction">--</div>
-                            <div class="fci-stat-label">Hope vs. Despair (7-Day Direction)</div>
-                        </div>
-                    </div>
-                    
-                    <div class="fci-metrics-grid">
-                        <div class="fci-metric-card">
-                            <div class="fci-metric-header">
-                                <h3 class="fci-metric-title">Hope vs. Despair Ratio</h3>
-                                <p class="fci-metric-description">Ratio of optimistic to pessimistic financial discussions</p>
-                            </div>
-                            <div class="fci-metric-content">
-                                <div class="fci-chart-container">
-                                    <canvas id="fci-hopeDespairChart"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="fci-section-description">
-                        The Hope vs. Despair Ratio measures the balance between optimistic and pessimistic financial discussions. A ratio above 1 indicates more hopeful than despairing conversations, while a ratio below 1 suggests the opposite. This metric helps identify shifts in public sentiment about economic conditions, from personal financial situations to broader market outlook.
-                    </p>
-                </section>
 
                 <div class="fci-cta">
                     <a href="http://www.infegy.com/demo" class="fci-cta-link">
@@ -1424,7 +1424,8 @@
 
         // Load and display data
         function loadData() {
-            fetch('https://www.infegy.com/hubfs/Fear%20Cheer%20Index/data.json')
+            const cacheBuster = Math.floor(Math.random() * 1000000); // or use Date.now()
+            fetch(`https://www.infegy.com/hubfs/Fear%20Cheer%20Index/data.json?cb=${cacheBuster}`)
                 .then(response => response.json())
                 .then(data => {
                     // Format the date to be more readable

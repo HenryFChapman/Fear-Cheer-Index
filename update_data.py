@@ -1,6 +1,6 @@
 import requests
 import json
-from datetime import datetime, timedelta, UTC
+from datetime import datetime, timedelta, timezone
 import os
 import statistics
 
@@ -318,7 +318,7 @@ def update_data_file(metric_data):
                 'growth': growth
             })
         
-        data['lastUpdated'] = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+        data['lastUpdated'] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
         hubspot_api_request(data)
         
