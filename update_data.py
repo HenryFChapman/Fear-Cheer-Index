@@ -240,42 +240,20 @@ def calculate_growth_metrics(values):
     
     # Calculate short-term growth (last 7 days)
     short_term_values = values[-7:] if len(values) >= 7 else values
-    # Use linear regression to get the trend slope
-    x = list(range(len(short_term_values)))
-    y = short_term_values
-    n = len(x)
-    if n > 1:
-        sum_x = sum(x)
-        sum_y = sum(y)
-        sum_xy = sum(xi * yi for xi, yi in zip(x, y))
-        sum_x2 = sum(xi * xi for xi in x)
-        slope = (n * sum_xy - sum_x * sum_y) / (n * sum_x2 - sum_x * sum_x)
-        short_term_growth = (slope / y[0] * 100) if y[0] != 0 else 0
+    if len(short_term_values) >= 2:
+        short_term_growth = ((short_term_values[-1] - short_term_values[0]) / short_term_values[0] * 100) if short_term_values[0] != 0 else 0
     else:
         short_term_growth = 0
     
     # Calculate long-term growth (last 30 days)
     long_term_values = values[-30:] if len(values) >= 30 else values
-    # Use linear regression to get the trend slope
-    x = list(range(len(long_term_values)))
-    y = long_term_values
-    n = len(x)
-    if n > 1:
-        sum_x = sum(x)
-        sum_y = sum(y)
-        sum_xy = sum(xi * yi for xi, yi in zip(x, y))
-        sum_x2 = sum(xi * xi for xi in x)
-        slope = (n * sum_xy - sum_x * sum_y) / (n * sum_x2 - sum_x * sum_x)
-        long_term_growth = (slope / y[0] * 100) if y[0] != 0 else 0
+    if len(long_term_values) >= 2:
+        long_term_growth = ((long_term_values[-1] - long_term_values[0]) / long_term_values[0] * 100) if long_term_values[0] != 0 else 0
     else:
         long_term_growth = 0
     
-    # Determine trend direction based on recent values
-    recent_values = values[-5:] if len(values) >= 5 else values
-    if len(recent_values) >= 2:
-        direction = "up" if recent_values[-1] > recent_values[0] else "down" if recent_values[-1] < recent_values[0] else "neutral"
-    else:
-        direction = "neutral"
+    # Determine trend direction based on short-term growth
+    direction = "up" if short_term_growth > 0 else "down" if short_term_growth < 0 else "neutral"
     
     return {
         "short_term": round(short_term_growth, 1),
