@@ -75,7 +75,7 @@
         .fci-nav-links {
             display: flex;
             gap: 1.5rem;
-            flex-wrap: nowrap;
+            flex-wrap: wrap;
             justify-content: center;
             align-items: center;
         }
@@ -416,6 +416,7 @@
         @media (max-width: 1200px) {
             .fci-nav-links {
                 gap: 1rem;
+                justify-content: flex-start;
             }
 
             .fci-nav-link {
@@ -480,6 +481,7 @@
                 transition: right 0.3s ease;
                 box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1);
                 z-index: 100;
+                justify-content: flex-start;
             }
             
             .fci-nav-links.active {
