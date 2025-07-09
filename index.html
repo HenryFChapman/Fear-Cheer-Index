@@ -1570,20 +1570,35 @@
             console.log(data);
 
             const direction = document.getElementById(`${metricId}-direction`);
+            const shouldFlipColor = ['esi', 'anxiety', 'layoff'];
 
-            // Define which metrics should be flipped
-            const shouldFlip = ['esi', 'anxiety', 'layoff'];
-
-            // Only flip if direction exists and data.growth exists
             if (direction && data.growth && data.growth.direction) {
-                if (shouldFlip.includes(metricId)) {
-                    // Flip the direction
-                    if (data.growth.direction === 'up') {
-                        data.growth.direction = 'down';
-                    } else if (data.growth.direction === 'down') {
-                        data.growth.direction = 'up';
+                const dir = data.growth.direction;
+
+                // Set arrow symbol
+                const directionMap = {
+                    'up': '↑',
+                    'down': '↓',
+                    'neutral': '→'
+                };
+                direction.textContent = directionMap[dir] || '--';
+
+                // Reset classes
+                direction.className = 'fci-stat-value';
+
+                // Apply color logic
+                if (shouldFlipColor.includes(metricId)) {
+                    if (dir === 'down') {
+                        direction.classList.add('fci-trend-up'); // Green (good when down)
+                    } else if (dir === 'up') {
+                        direction.classList.add('fci-trend-down'); // Red (bad when up)
                     }
-                    // No change for 'neutral'
+                } else {
+                    if (dir === 'up') {
+                        direction.classList.add('fci-trend-up');
+                    } else if (dir === 'down') {
+                        direction.classList.add('fci-trend-down');
+                    }
                 }
             }
 
@@ -1591,36 +1606,22 @@
         }
 
         function updateMetricStats(metricId, data) {
-
             const netSentiment = document.getElementById(`${metricId}-net-sentiment`);
             const shortTerm = document.getElementById(`${metricId}-short-term`);
             const longTerm = document.getElementById(`${metricId}-long-term`);
-            const direction = directionSwap(metricId, data);
-
 
             if (netSentiment && data.net_sentiment !== undefined) {
                 netSentiment.textContent = `${data.net_sentiment}%`;
             }
 
-            if (shortTerm && longTerm && direction && data.growth) {
+            if (shortTerm && longTerm && data.growth) {
                 shortTerm.textContent = `${data.growth.short_term}%`;
                 longTerm.textContent = `${data.growth.long_term}%`;
-                
-                const directionMap = {
-                    'up': '↑',
-                    'down': '↓',
-                    'neutral': '→'
-                };
-                direction.textContent = directionMap[data.growth.direction] || '--';
-                
-                direction.className = 'fci-stat-value';
-                if (data.growth.direction === 'up') {
-                    direction.classList.add('fci-trend-up');
-                } else if (data.growth.direction === 'down') {
-                    direction.classList.add('fci-trend-down');
-                }
             }
+
+            directionSwap(metricId, data); // Handles icon and class coloring
         }
+
 
         // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', loadData);
