@@ -1565,11 +1565,38 @@
             });
         });
 
+        function directionSwap(metricId, data) {
+            console.log(metricId);
+            console.log(data);
+
+            const direction = document.getElementById(`${metricId}-direction`);
+
+            // Define which metrics should be flipped
+            const shouldFlip = ['anxiety', 'layoff'];
+
+            // Only flip if direction exists and data.growth exists
+            if (direction && data.growth && data.growth.direction) {
+                if (shouldFlip.includes(metricId)) {
+                    // Flip the direction
+                    if (data.growth.direction === 'up') {
+                        data.growth.direction = 'down';
+                    } else if (data.growth.direction === 'down') {
+                        data.growth.direction = 'up';
+                    }
+                    // No change for 'neutral'
+                }
+            }
+
+            return direction;
+        }
+
         function updateMetricStats(metricId, data) {
+
             const netSentiment = document.getElementById(`${metricId}-net-sentiment`);
             const shortTerm = document.getElementById(`${metricId}-short-term`);
             const longTerm = document.getElementById(`${metricId}-long-term`);
-            const direction = document.getElementById(`${metricId}-direction`);
+            const direction = directionSwap(metricId, data);
+
 
             if (netSentiment && data.net_sentiment !== undefined) {
                 netSentiment.textContent = `${data.net_sentiment}%`;
